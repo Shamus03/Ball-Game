@@ -1,3 +1,7 @@
+Ball-Game
+
+============
+
 A dinky little game I made in my free time in computer science my senior year.
 
 It supports up to four players, controlled by WASD, IJKL, Arrow keys, and the mouse.
