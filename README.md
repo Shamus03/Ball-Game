@@ -1,5 +1,4 @@
 Ball-Game
-
 =========
 
 A dinky little game I made in my free time in computer science my senior year.
