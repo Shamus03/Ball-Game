@@ -5,23 +5,31 @@ import java.awt.Rectangle;
 
 import powerup.Orbital;
 
-public class Wall
+public class Wall extends Entity
 {
 	Rectangle bounds;
 	Color color;
 
-	double xMin,yMin,xMax,yMax;
+	float xMin,yMin,xMax,yMax;
 
 	public Wall(int x1, int y1, int x2, int y2)
 	{
 		bounds = new Rectangle(x1,y1,x2-x1,y2-y1);
 		color = Color.gray;
 
-		xMin = bounds.getMinX();
-		yMin = bounds.getMinY();
-		xMax = bounds.getMaxX();
-		yMax = bounds.getMaxY();
+		xMin = (float) bounds.getMinX();
+		yMin = (float) bounds.getMinY();
+		xMax = (float) bounds.getMaxX();
+		yMax = (float) bounds.getMaxY();
 	}
+
+    public void onCollide(Entity e) {
+        if ( e instanceof Player )
+            collide((Player)e);
+        else if ( e instanceof Orbital )
+            collide((Orbital)e);
+
+    }
 
 	public void collide(Player p)
 	{
@@ -61,8 +69,8 @@ public class Wall
 			if(p.yVel > 0)
 				p.yVel *= -p.restitution*Math.sin(angle);
 
-			p.xPos = xMin - p.size*Math.cos(angle);
-			p.yPos = yMin - p.size*Math.sin(angle);
+			p.xPos = (float) (xMin - p.size*Math.cos(angle));
+			p.yPos = (float) (yMin - p.size*Math.sin(angle));
 		}
 
 		if(p.distance(p.xPos,p.yPos,xMin,yMax) <= p.size)	//lower left corner collision
@@ -74,8 +82,8 @@ public class Wall
 			if(p.yVel < 0)
 				p.yVel *= p.restitution*Math.sin(angle);
 
-			p.xPos = xMin - p.size*Math.cos(angle);
-			p.yPos = yMax - p.size*Math.sin(angle);
+			p.xPos = (float) (xMin - p.size*Math.cos(angle));
+			p.yPos = (float) (yMax - p.size*Math.sin(angle));
 		}
 
 		if(p.distance(p.xPos,p.yPos,xMax,yMin) <= p.size)	//upper right corner collision
@@ -87,8 +95,8 @@ public class Wall
 			if(p.yVel > 0)
 				p.yVel *= -p.restitution*Math.sin(angle);
 
-			p.xPos = xMax - p.size*Math.cos(angle);
-			p.yPos = yMin - p.size*Math.sin(angle);
+			p.xPos = (float) (xMax - p.size*Math.cos(angle));
+			p.yPos = (float) (yMin - p.size*Math.sin(angle));
 		}
 
 		if(p.distance(p.xPos,p.yPos,xMax,yMax) <= p.size)	//lower right corner collision
@@ -100,8 +108,8 @@ public class Wall
 			if(p.yVel < 0)
 				p.yVel *= p.restitution*Math.sin(angle);
 
-			p.xPos = xMax - p.size*Math.cos(angle);
-			p.yPos = yMax - p.size*Math.sin(angle);
+			p.xPos = (float) (xMax - p.size*Math.cos(angle));
+			p.yPos = (float) (yMax - p.size*Math.sin(angle));
 		}
 
 	}

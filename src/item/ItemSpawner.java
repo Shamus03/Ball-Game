@@ -1,5 +1,5 @@
 package item;
-import game.BallGame;
+import game.BallGameStatic;
 
 
 public class ItemSpawner
@@ -12,15 +12,20 @@ public class ItemSpawner
 
 	public enum ItemType
 	{					
-		HEALTH		{public void addItem(){BallGame.items.add(new HealthItem());}},
-		SHIELD		{public void addItem(){BallGame.items.add(new ShieldItem());}},
-		ORBITAL		{public void addItem(){BallGame.items.add(new OrbitalItem());}},
-		TRIPLESHOT	{public void addItem(){BallGame.items.add(new TripleShotItem());}},
-		FASTSHOT	{public void addItem(){BallGame.items.add(new FastShotItem());}};
+		HEALTH		{public void addItem(){
+            BallGameStatic.items.add(new HealthItem());}},
+		SHIELD		{public void addItem(){
+            BallGameStatic.items.add(new ShieldItem());}},
+		ORBITAL		{public void addItem(){
+            BallGameStatic.items.add(new OrbitalItem());}},
+		TRIPLESHOT	{public void addItem(){
+            BallGameStatic.items.add(new TripleShotItem());}},
+		FASTSHOT	{public void addItem(){
+            BallGameStatic.items.add(new FastShotItem());}};
 		
 		public void addItem()
 		{
-			BallGame.items.add(new Item());
+			BallGameStatic.items.add(new Item());
 		}
 	}
 	

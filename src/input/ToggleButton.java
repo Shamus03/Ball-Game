@@ -1,5 +1,5 @@
 package input;
-import game.BallGame.Location;
+import game.BallGameStatic.Location;
 
 import java.awt.Color;
 

@@ -1,6 +1,6 @@
 package game;
 import input.Button;
-import input.InputHandler;
+import input.Input;
 import input.ToggleButton;
 import item.Item;
 import item.ItemSpawner;
@@ -19,7 +19,7 @@ import entity.Wall;
 
 
 @SuppressWarnings("serial")
-public class BallGame extends Applet
+public class BallGameStatic extends Applet
 {		
 	public static ArrayList<Player> players = new ArrayList<Player>();
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -41,8 +41,6 @@ public class BallGame extends Applet
 
 	Image virtualMem;
 	Graphics2D gBuffer;
-
-	InputHandler keyboard;
 	
 	public enum Location
 	{
@@ -130,7 +128,7 @@ public class BallGame extends Applet
 	boolean pauseButtonStillPressed = false;
 	public void game(int delta)
 	{				
-		if(!(InputHandler.P||InputHandler.ESC||!isFocusOwner()))	//handles single presses of P
+		if(!(Input.P||Input.ESCAPE||!isFocusOwner()))	//handles single presses of P
 			pauseButtonStillPressed = false;	//if the window loses focus the game will pause
 		else
 			if(!pauseButtonStillPressed)
@@ -198,7 +196,7 @@ public class BallGame extends Applet
 
 	public void pauseScreen(int delta)
 	{		
-		if(!(InputHandler.P||InputHandler.ESC))	//handles single presses of pause button
+		if(!(Input.P||Input.ESCAPE))	//handles single presses of pause button
 			pauseButtonStillPressed = false;
 		else
 			if(!pauseButtonStillPressed)
@@ -335,7 +333,7 @@ public class BallGame extends Applet
 	public void movePlayers(int delta)
 	{
 		for(int i = 0; i < players.size(); i++)	//move all players
-			players.get(i).move(delta);
+			players.get(i).tick(delta);
 	}
 
 	public void drawPlayers()
@@ -398,13 +396,4 @@ public class BallGame extends Applet
 	{
 		paint(g);
 	}
-
-	public boolean mouseMove(Event e, int x, int y){return InputHandler.mouseUpdate(x,y);}
-	public boolean mouseDrag(Event e, int x, int y){return InputHandler.mouseUpdate(x,y);}
-	
-	public boolean mouseDown(Event e, int x, int y){return InputHandler.mouseChange(e,true );}
-	public boolean mouseUp  (Event e, int x, int y){return InputHandler.mouseChange(e,false);}
-
-	public boolean keyDown(Event e, int key){return InputHandler.keyChange(e,key,true);}
-	public boolean keyUp  (Event e, int key){return InputHandler.keyChange(e,key,false);}
 }

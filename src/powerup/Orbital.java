@@ -2,7 +2,7 @@ package powerup;
 
 import entity.Bullet;
 import entity.Player;
-import game.BallGame;
+import game.BallGameStatic;
 
 import item.OrbitalItem;
 
@@ -33,11 +33,11 @@ public class Orbital extends Powerup
 	{
 		super(parent, durationSeconds);
 		
-		xPos = item.xPos;
-		yPos = item.yPos;
+		xPos = item.getxPos();
+		yPos = item.getyPos();
 		
-		xVel = item.xVel;
-		yVel = item.yVel;
+		xVel = item.getxVel();
+		yVel = item.getyVel();
 		
 		size = 10;
 		
@@ -48,9 +48,9 @@ public class Orbital extends Powerup
 	{
 		if(!colliding(parent))
 		{
-			double angle = Math.atan2(yPos-parent.yPos,xPos-parent.xPos);
-			int endX = (int)(parent.xPos + parent.size*Math.cos(angle));
-			int endY = (int)(parent.yPos + parent.size*Math.sin(angle));
+			double angle = Math.atan2(yPos- parent.getyPos(),xPos- parent.getxPos());
+			int endX = (int)(parent.getxPos() + parent.size*Math.cos(angle));
+			int endY = (int)(parent.getyPos() + parent.size*Math.sin(angle));
 
 			g.setColor(Color.black);
 			g.drawLine((int)xPos,(int)yPos,endX,endY);
@@ -82,9 +82,9 @@ public class Orbital extends Powerup
 	{
 		double deltaFrame = (double)delta/15;
 		
-		double angle = Math.atan2(parent.yPos-yPos,parent.xPos-xPos);
+		double angle = Math.atan2(parent.getyPos() -yPos, parent.getxPos() -xPos);
 		
-		double distance = distance(xPos,yPos,parent.xPos,parent.yPos) - (parent.size*1.5);
+		double distance = distance(xPos,yPos, parent.getxPos(), parent.getyPos()) - (parent.size*1.5);
 		if(distance < 0)
 			distance = 0;
 		
@@ -98,40 +98,40 @@ public class Orbital extends Powerup
 	public void wallClip()	//bounce off walls
 	{
 		//check if out of bounds; move back in; apply restitution and bounce.
-		if(xPos >= BallGame.width - size)
+		if(xPos >= BallGameStatic.width - size)
 		{
-			xPos = BallGame.width - size;
+			xPos = BallGameStatic.width - size;
 			if(xVel > 0)
 				xVel *= -restitution;
 		}
-		if(xPos <= size + BallGame.leftBounds)
+		if(xPos <= size + BallGameStatic.leftBounds)
 		{
-			xPos = size +BallGame.leftBounds;
+			xPos = size + BallGameStatic.leftBounds;
 			if(xVel < 0)
 				xVel *= -restitution;
 		}
-		if(yPos >= BallGame.height - size)
+		if(yPos >= BallGameStatic.height - size)
 		{
-			yPos = BallGame.height - size;
+			yPos = BallGameStatic.height - size;
 			if(yVel > 0)
 				yVel *= -restitution;
 		}
-		if(yPos <= size + BallGame.topBounds)
+		if(yPos <= size + BallGameStatic.topBounds)
 		{
-			yPos = size + BallGame.topBounds;
+			yPos = size + BallGameStatic.topBounds;
 			if(yVel < 0)
 				yVel *= -restitution;
 		}
 
-		for(int i = 0; i < BallGame.walls.size(); i++)	//bounce off wall objects
-			BallGame.walls.get(i).collide(this);
+		for(int i = 0; i < BallGameStatic.walls.size(); i++)	//bounce off wall objects
+			BallGameStatic.walls.get(i).collide(this);
 	}
 	
 	public void collideWithPlayers()
 	{
-		for(int i = 0; i < BallGame.players.size(); i++)
+		for(int i = 0; i < BallGameStatic.players.size(); i++)
 		{
-			Player p = BallGame.players.get(i);
+			Player p = BallGameStatic.players.get(i);
 			if(p != parent)
 			{
 				if(colliding(p))
@@ -154,12 +154,12 @@ public class Orbital extends Powerup
 			nextHit = lastHit + hitDelay;
 			
 			Bullet b = new Bullet(parent, parent.bulletSize, 0);
-			double angle = Math.atan2(yPos-p.yPos,xPos-p.xPos);
+			double angle = Math.atan2(yPos- p.getyPos(),xPos- p.getxPos());
 			b.xVel = b.yVel = 0;
 			b.bounces = 0;
-			b.xPos = p.xPos + p.size*Math.cos(angle);
-			b.yPos = p.yPos + p.size*Math.sin(angle);
-			BallGame.bullets.add(b);
+			b.xPos = p.getxPos() + p.size*Math.cos(angle);
+			b.yPos = p.getyPos() + p.size*Math.sin(angle);
+			BallGameStatic.bullets.add(b);
 
 			health--;
 			if(health <= 0)
@@ -170,7 +170,7 @@ public class Orbital extends Powerup
 	public boolean colliding(Player other)
 	{
 
-		if(distance(xPos,yPos,other.xPos,other.yPos) < size + other.size)
+		if(distance(xPos,yPos, other.getxPos(), other.getyPos()) < size + other.size)
 			return true;
 		return false;
 	}
@@ -193,26 +193,26 @@ public class Orbital extends Powerup
 	
 	public void collideBounce(Player other)
 	{		
-		double thisAngle = Math.atan2(yPos-other.yPos,xPos-other.xPos);
-		double targAngle = Math.atan2(other.yPos-yPos,other.xPos-xPos);
+		double thisAngle = Math.atan2(yPos- other.getyPos(),xPos- other.getxPos());
+		double targAngle = Math.atan2(other.getyPos() -yPos, other.getxPos() -xPos);
 
-		double inside = Math.abs(distance(xPos,yPos,other.xPos,other.yPos)-size-other.size);
+		double inside = Math.abs(distance(xPos,yPos, other.getxPos(), other.getyPos())-size-other.size);
 
 		xPos += (inside/2)*Math.cos(thisAngle);
 		yPos += (inside/2)*Math.sin(thisAngle);
-		other.xPos += (inside/2)*Math.cos(targAngle);
-		other.yPos += (inside/2)*Math.sin(targAngle);
+		other.setxPos((float) ((inside / 2) * Math.cos(targAngle)));
+		other.setyPos((float) ((inside / 2) * Math.sin(targAngle)));
 
 		double thisSpeed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-		double targSpeed = Math.sqrt(Math.pow(other.xVel,2)+Math.pow(other.yVel,2));
+		double targSpeed = Math.sqrt(Math.pow(other.getxVel(),2)+Math.pow(other.getyVel(),2));
 
 		double massRatio = Math.pow(other.size/(size*2),2);
 
 		xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
 		yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);
 
-		other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(restitution,2);
-		other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(restitution,2);
+		other.setxVel((float) ((1 / massRatio) * thisSpeed * Math.cos(targAngle) * Math.pow(restitution, 2)));
+		other.setyVel((float) ((1 / massRatio) * thisSpeed * Math.sin(targAngle) * Math.pow(restitution, 2)));
 	}
 	
 	public void collideBounce(Orbital other)

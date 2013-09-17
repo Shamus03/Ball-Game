@@ -1,6 +1,6 @@
 package input;
-import game.BallGame;
-import game.BallGame.Location;
+import game.BallGameStatic;
+import game.BallGameStatic.Location;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -51,12 +51,12 @@ public class Button
 
 	public void draw(Graphics g)
 	{
-		if(BallGame.location == location)
+		if(BallGameStatic.location == location)
 		{			
-			if(bounds.contains(InputHandler.MOUSE_X,InputHandler.MOUSE_Y))	//draw darker if mouse is touching it
+			if(bounds.contains(Input.MOUSE_X,Input.MOUSE_Y))	//draw darker if mouse is touching it
 			{
 				g.setColor(color.darker());
-				if(InputHandler.MOUSE_LEFT)
+				if(Input.MOUSE_LEFT)
 				{
 					if(!clicked)
 					{
@@ -78,7 +78,7 @@ public class Button
 
 	void press()
 	{
-		BallGame.location = newLocation;
+		BallGameStatic.location = newLocation;
 	}
 
 	public void setColor(Color c){ color = c; }

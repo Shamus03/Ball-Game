@@ -1,21 +1,17 @@
 package item;
+import entity.Entity;
 import entity.Player;
-import game.BallGame;
+import game.BallGameStatic;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 
-public class Item
+public class Item extends Entity
 {
-	public double xPos;
-	public double yPos;
-	double speed;
-	double targxPos;
-	double targyPos;
-
-	public double xVel;
-	public double yVel;
+	float speed;
+	float targxPos;
+	float targyPos;
 
 	int startDistance;
 
@@ -25,24 +21,24 @@ public class Item
 
 	public Item()
 	{
-		speed = Math.random()+1;
+		speed = (float) (Math.random()+1);
 
 		color = Color.white;
 
 		size = 10;
 
-		startDistance = (int)((Math.max(BallGame.width+10,BallGame.height+10)+size)/1.5);
+		startDistance = (int)((Math.max(BallGameStatic.width+10, BallGameStatic.height+10)+size)/1.5);
 		double angle = Math.toRadians(Math.random()*360);		//random starting location
-		xPos = (BallGame.width + 10)/2+startDistance*Math.cos(angle);
-		yPos = (BallGame.height + 10)/2+startDistance*Math.sin(angle);
+		xPos = (float) ((BallGameStatic.width + 10)/2+startDistance*Math.cos(angle));
+		yPos = (float) ((BallGameStatic.height + 10)/2+startDistance*Math.sin(angle));
 
-		targxPos = (int)(Math.random()*((BallGame.width-BallGame.leftBounds)-size*2)+size+BallGame.leftBounds);	//random location
-		targyPos = (int)(Math.random()*((BallGame.height-BallGame.topBounds)-size*2)+size+BallGame.topBounds);
+		targxPos = (int)(Math.random()*((BallGameStatic.width- BallGameStatic.leftBounds)-size*2)+size+ BallGameStatic.leftBounds);	//random location
+		targyPos = (int)(Math.random()*((BallGameStatic.height- BallGameStatic.topBounds)-size*2)+size+ BallGameStatic.topBounds);
 
 		double travelAngle = Math.atan2(targyPos-yPos,targxPos-xPos);
 
-		xVel = speed*Math.cos(travelAngle);
-		yVel = speed*Math.sin(travelAngle);
+		xVel = (float) (speed*Math.cos(travelAngle));
+		yVel = (float) (speed*Math.sin(travelAngle));
 	}
 
 	public void supplyEffect(Player p)
@@ -58,7 +54,7 @@ public class Item
 
 	public void removeFromWorld()	//remove from main list of bullets
 	{				
-		BallGame.items.remove(BallGame.items.indexOf(this));
+		BallGameStatic.items.remove(BallGameStatic.items.indexOf(this));
 	}
 
 	public void move(int delta)
@@ -74,11 +70,11 @@ public class Item
 
 	boolean isOutofView()
 	{
-		if(xPos - size > BallGame.width + 10 && xVel > 0)
+		if(xPos - size > BallGameStatic.width + 10 && xVel > 0)
 			return true;
 		if(xPos + size < -10 && xVel < 0)
 			return true;
-		if(yPos - size > BallGame.height + 10 && yVel > 0)
+		if(yPos - size > BallGameStatic.height + 10 && yVel > 0)
 			return true;
 		if(yPos + size < -10 && yVel < 0)
 			return true;
@@ -101,7 +97,7 @@ public class Item
 
 	public boolean colliding(Player p)
 	{
-		if(distance(xPos,yPos,p.xPos,p.yPos) <= size+p.size )
+		if(distance(xPos,yPos,p.getxPos(),p.getyPos()) <= size+p.size )
 			return true;
 		return false;
 	}

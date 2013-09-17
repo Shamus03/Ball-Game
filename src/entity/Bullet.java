@@ -1,5 +1,5 @@
 package entity;
-import game.BallGame;
+import game.BallGameStatic;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -103,9 +103,9 @@ public class Bullet
 		xPos+=xVel*delta;	//apply movement
 		yPos+=yVel*delta;
 
-		for(int i = 0; i < BallGame.players.size(); i++)	//checks for collisions with players
+		for(int i = 0; i < BallGameStatic.players.size(); i++)	//checks for collisions with players
 		{
-			Player targ = BallGame.players.get(i);
+			Player targ = BallGameStatic.players.get(i);
 			if(targ != parent)	//make sure to not hit its parent
 				if(colliding(targ) && targ.alive)	//If they're colliding and the player is alive, hit it and die.
 				{
@@ -114,20 +114,20 @@ public class Bullet
 				}
 		}
 
-		for(int i = 0; i < BallGame.bullets.size(); i++)	//checks for collisions with other bullets
+		for(int i = 0; i < BallGameStatic.bullets.size(); i++)	//checks for collisions with other bullets
 		{
-			Bullet targ = BallGame.bullets.get(i);
+			Bullet targ = BallGameStatic.bullets.get(i);
 			if(targ != this)	//make sure to not hit itself
 				if(colliding(targ) && targ.alive)	//If they're colliding and the other bullet is alive kill both of them.
 					alive = targ.alive = false;
 		}
 		
-		for(int i = 0; i < BallGame.powerups.size(); i++)	//checks for collisions with orbitals
+		for(int i = 0; i < BallGameStatic.powerups.size(); i++)	//checks for collisions with orbitals
 		{
-			Powerup other = BallGame.powerups.get(i);
+			Powerup other = BallGameStatic.powerups.get(i);
 			if(other instanceof Orbital)
 			{
-				Orbital targ = (Orbital)BallGame.powerups.get(i);
+				Orbital targ = (Orbital) BallGameStatic.powerups.get(i);
 				if(targ.parent != this.parent)	//make sure to not hit its compadre
 					if(targ.colliding(this))	//If they're colliding kill itself
 					{
@@ -142,9 +142,9 @@ public class Bullet
 
 	public void gravitateToPlayers(double delta)
 	{		
-		for(int i = 0; i < BallGame.players.size(); i++)
+		for(int i = 0; i < BallGameStatic.players.size(); i++)
 		{
-			Player p = BallGame.players.get(i);
+			Player p = BallGameStatic.players.get(i);
 			if(p != parent)
 			{
 				double angle = Math.atan2(p.yPos-yPos,p.xPos-xPos);
@@ -164,9 +164,9 @@ public class Bullet
 
 	public void gravitateToBullets(double delta)
 	{
-		for(int i = 0; i < BallGame.bullets.size(); i++)
+		for(int i = 0; i < BallGameStatic.bullets.size(); i++)
 		{
-			Bullet b = BallGame.bullets.get(i);
+			Bullet b = BallGameStatic.bullets.get(i);
 			if(b != this)
 			{
 				double angle = Math.atan2(b.yPos-yPos,b.xPos-xPos);
@@ -210,43 +210,43 @@ public class Bullet
 
 	public void removeFromWorld()	//remove from main list of bullets
 	{
-		BallGame.bullets.remove(BallGame.bullets.indexOf(this));
+		BallGameStatic.bullets.remove(BallGameStatic.bullets.indexOf(this));
 	}
 
 	public void wallClip()
 	{
 		//Bounce off walls.  Subtract from remaining bounces.
-		if(xPos >= BallGame.width - size)
+		if(xPos >= BallGameStatic.width - size)
 		{
 			bounces--;
-			xPos = BallGame.width - size;
+			xPos = BallGameStatic.width - size;
 			if(xVel > 0)
 				xVel *= -1;
 		}
-		if(xPos <= size + BallGame.leftBounds)
+		if(xPos <= size + BallGameStatic.leftBounds)
 		{
 			bounces--;
-			xPos = size +BallGame.leftBounds;
+			xPos = size + BallGameStatic.leftBounds;
 			if(xVel < 0)
 				xVel *= -1;
 		}
-		if(yPos >= BallGame.height - size)
+		if(yPos >= BallGameStatic.height - size)
 		{
 			bounces--;
-			yPos = BallGame.height - size;
+			yPos = BallGameStatic.height - size;
 			if(yVel > 0)
 				yVel *= -1;
 		}
-		if(yPos <= size + BallGame.topBounds)
+		if(yPos <= size + BallGameStatic.topBounds)
 		{
 			bounces--;
-			yPos = size + BallGame.topBounds;
+			yPos = size + BallGameStatic.topBounds;
 			if(yVel < 0)
 				yVel *= -1;
 		}
 
-		for(int i = 0; i < BallGame.walls.size(); i++)
-			BallGame.walls.get(i).collide(this);
+		for(int i = 0; i < BallGameStatic.walls.size(); i++)
+			BallGameStatic.walls.get(i).collide(this);
 
 		if(bounces < 0)		//checks bounces to remove
 			alive = false;

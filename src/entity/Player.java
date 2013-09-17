@@ -1,23 +1,19 @@
 package entity;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.*;
 import java.util.Random;
 
+import camera.Camera;
 import item.*;
 import powerup.*;
 import game.*;
 import input.*;
+import shape.Polygon2D;
 
 
-public class Player
+public class Player extends Entity
 {
-	public double size;	//radius of player
-	public double xPos;
-	public double yPos;
-	public double xVel;
-	public double yVel;
+	public float size;	//radius of player
 	double direction;
 	private double speed;	//accel speed
 	private boolean up,down,left,right = false;	//which keys are pressed
@@ -80,20 +76,20 @@ public class Player
 		speed = .3;		//Max speed will be (speed/(1-friction))
 
 
-		xPos = (int)(Math.random()*((BallGame.width-BallGame.leftBounds)-size*2)+size+BallGame.leftBounds);	//random location
-		yPos = (int)(Math.random()*((BallGame.height-BallGame.topBounds)-size*2)+size+BallGame.topBounds);
+		xPos = 0;
+        yPos = 0;
 
 		boolean validLocation = false;
 		while(!validLocation)
 		{
 			validLocation = true;
-			for(int i = 0; i < BallGame.walls.size(); i++)
+			for(int i = 0; i < BallGameStatic.walls.size(); i++)
 			{
-				if(BallGame.walls.get(i).bounds.contains(xPos,yPos))
+				if(BallGameStatic.walls.get(i).bounds.contains(xPos,yPos))
 				{
 					validLocation = false;
-					xPos = (int)(Math.random()*((BallGame.width-BallGame.leftBounds)-size*2)+size+BallGame.leftBounds);	//random location
-					yPos = (int)(Math.random()*((BallGame.height-BallGame.topBounds)-size*2)+size+BallGame.topBounds);
+					xPos = (int)(Math.random()*((BallGameStatic.width- BallGameStatic.leftBounds)-size*2)+size+ BallGameStatic.leftBounds);	//random location
+					yPos = (int)(Math.random()*((BallGameStatic.height- BallGameStatic.topBounds)-size*2)+size+ BallGameStatic.topBounds);
 				}
 				if(!validLocation)
 					break;
@@ -110,7 +106,7 @@ public class Player
 	int downscaleDelay = 15;
 	long nextDownscale = System.currentTimeMillis() + downscaleDelay;
 	boolean initialGrowth = false;
-	public void draw(Graphics g)
+	public void draw(Graphics2D g)
 	{
 		shieldDrawn = false;
 		
@@ -127,47 +123,48 @@ public class Player
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())	// 7/8 chance to draw each flame part.  1/8 to skip. (creates random flicker)
 				{
 					g.setColor(Color.red);
-					g.fillOval((int)(xPos + size*jetSize*Math.cos(direction + Math.PI)-flameSize),(int)(yPos + size*jetSize*Math.sin(direction + Math.PI)-flameSize),(int)(flameSize*2),(int)(flameSize*2));
+					Camera.fillOval((int) (xPos + size * jetSize * Math.cos(direction + Math.PI) - flameSize), (int) (yPos + size * jetSize * Math.sin(direction + Math.PI) - flameSize), (int) (flameSize * 2), (int) (flameSize * 2),g);
 				}
 				flameSize *= (double)2/3;
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())
 				{
 					g.setColor(Color.orange);
-					g.fillOval((int)(xPos + size*jetSize*Math.cos(direction + Math.PI)-flameSize),(int)(yPos + size*jetSize*Math.sin(direction + Math.PI)-flameSize),(int)(flameSize*2),(int)(flameSize*2));
+					Camera.fillOval((int) (xPos + size * jetSize * Math.cos(direction + Math.PI) - flameSize), (int) (yPos + size * jetSize * Math.sin(direction + Math.PI) - flameSize), (int) (flameSize * 2), (int) (flameSize * 2), g);
 				}
 				flameSize *= (double)1/2;
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())
 				{
 					g.setColor(Color.yellow);
-					g.fillOval((int)(xPos + size*jetSize*Math.cos(direction + Math.PI)-flameSize),(int)(yPos + size*jetSize*Math.sin(direction + Math.PI)-flameSize),(int)(flameSize*2),(int)(flameSize*2));
+					Camera.fillOval((int) (xPos + size * jetSize * Math.cos(direction + Math.PI) - flameSize), (int) (yPos + size * jetSize * Math.sin(direction + Math.PI) - flameSize), (int) (flameSize * 2), (int) (flameSize * 2), g);
 				}
 			}
 
 			g.setColor(Color.gray);	//create jet polygon
-			Polygon jet = new Polygon();
+			Polygon2D jet = new Polygon2D();
 			jet.addPoint((int)xPos,(int)yPos);
 			jet.addPoint((int)(xPos - size*jetSize*Math.cos(direction - Math.toRadians(jetAngle))),(int)(yPos - size*jetSize*Math.sin(direction - Math.toRadians(jetAngle))));
 			jet.addPoint((int)(xPos - size*jetSize*Math.cos(direction + Math.toRadians(jetAngle))),(int)(yPos - size*jetSize*Math.sin(direction + Math.toRadians(jetAngle))));
-			g.fillPolygon(jet);			//draw jet
+			Camera.fillPolygon2D(jet,g);			//draw jet
 			g.setColor(Color.black);
-			g.drawPolygon(jet);			//draw jet outline
+			Camera.drawPolygon2D(jet,g);			//draw jet outline
 
 			double healthSize = size * health/healthMax;	//size of health ring
 
 			g.setColor(Color.black);	//draw initial circle
-			g.fillOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2));
+			Camera.fillOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2),g);
 
 			g.setColor(color);			//draw colored center
-			g.fillOval((int)(xPos-healthSize), (int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2));
+			Camera.fillOval((int)(xPos-healthSize), (int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2),g);
 
-			g.setColor(color);			//draw colored direction pointer
-			g.fillArc((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2),(int)(-Math.toDegrees(direction)-15),30);
+//          Disabled until Camera.fillArc is implemented
+//			g.setColor(color);			//draw colored direction pointer
+//			Camera.fillArc((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2),(int)(-Math.toDegrees(direction)-15),30,g);
 
-			g.setColor(Color.black);	//draw inside direction pointer
-			g.fillArc((int)(xPos-healthSize),(int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2),(int)(-Math.toDegrees(direction)-15),30);
+//			g.setColor(Color.black);	//draw inside direction pointer
+//			Camera.fillArc((int)(xPos-healthSize),(int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2),(int)(-Math.toDegrees(direction)-15),30,g);
 
 			g.setColor(Color.black);	//draw outer black ring
-			g.drawOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2));
+			Camera.drawOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2),g);
 		}
 		else
 		{
@@ -189,20 +186,20 @@ public class Player
 			if(downscale)
 				size *= .9;
 			g.setColor(Color.red);
-			g.fillOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2));
+			Camera.fillOval(xPos-size, yPos-size,size*2,size*2,g);
 			double size2 = (double)2/3*size;	//scales next part of explosion down a bit
 			g.setColor(Color.orange);
-			g.fillOval((int)(xPos-size2), (int)(yPos-size2),(int)(size2*2),(int)(size2*2));
+			Camera.fillOval((float)(xPos-size2), (float)(yPos-size2),(float)(size2*2),(float)(size2*2),g);
 			double size3 = (double)1/2*size2;	//scales next part of explosion down a bit
 			g.setColor(Color.yellow);
-			g.fillOval((int)(xPos-size3), (int)(yPos-size3),(int)(size3*2),(int)(size3*2));
+			Camera.fillOval((float)(xPos-size3), (float)(yPos-size3),(float)(size3*2),(float)(size3*2),g);
 		}
 	}
 
-	public void move(int del)
+	public void tick(int del)
 	{
 		double delta = (double)del/15;
-		
+
 		if(!alive)	//if dead, do nothing
 		{
 			if(explosionTimer < 0)
@@ -240,8 +237,6 @@ public class Player
 		yPos+=yVel*delta;
 
 		checkPowerUps();
-
-		wallClip();	//bounce player off walls
 	}
 
 	public void shoot()
@@ -253,7 +248,7 @@ public class Player
 			nextShot = lastShot + shotDelay;
 		
 		Bullet b = new Bullet(this,bulletSize,bulletSpeed);	//add bullet to list of bullets
-		BallGame.bullets.add(b);
+		BallGameStatic.bullets.add(b);
 
 		xVel -= b.speed*Math.cos(direction)*(Math.pow(b.size/size,2));	//apply knockback force
 		yVel -= b.speed*Math.sin(direction)*(Math.pow(b.size/size,2));
@@ -274,7 +269,7 @@ public class Player
 			b.xVel = xVel + bulletSpeed*Math.cos(direction+Math.pow(-1,i)*tripleShotAngle);
 			b.yVel = yVel + bulletSpeed*Math.sin(direction+Math.pow(-1,i)*tripleShotAngle);
 			b.speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-			BallGame.bullets.add(b);
+			BallGameStatic.bullets.add(b);
 		}
 	}
 
@@ -283,30 +278,30 @@ public class Player
 		switch(controlScheme)	//update controls according to control scheme
 		{
 		case 1:
-			up		= InputHandler.UP;
-			down	= InputHandler.DOWN;
-			left	= InputHandler.LEFT;
-			right	= InputHandler.RIGHT;
+			up		= Input.UP;
+			down	= Input.DOWN;
+			left	= Input.LEFT;
+			right	= Input.RIGHT;
 			break;
 		case 2:
-			up		= InputHandler.W;
-			down	= InputHandler.S;
-			left	= InputHandler.A;
-			right	= InputHandler.D;
+			up		= Input.W;
+			down	= Input.S;
+			left	= Input.A;
+			right	= Input.D;
 			break;
 		case 3:
-			up		= InputHandler.I;
-			down	= InputHandler.K;
-			left	= InputHandler.J;
-			right	= InputHandler.L;
+			up		= Input.I;
+			down	= Input.K;
+			left	= Input.J;
+			right	= Input.L;
 			break;
 		case 4:
-			up		= InputHandler.MOUSE_LEFT;
-			down	= InputHandler.MOUSE_RIGHT;
+			up		= Input.MOUSE_LEFT;
+			down	= Input.MOUSE_RIGHT;
 			left = right = false;			
 
-			double delta_x = InputHandler.MOUSE_X - xPos;
-			double delta_y = InputHandler.MOUSE_Y - yPos;
+			double delta_x = Input.MOUSE_X - xPos;
+			double delta_y = Input.MOUSE_Y - yPos;
 			double angle = Math.toDegrees(Math.atan2(delta_y, delta_x));
 
 			double difference = angle - Math.toDegrees(direction);
@@ -325,38 +320,6 @@ public class Player
 		default:	//default to nothing
 			break;
 		}
-	}
-
-	public void wallClip()	//bounce off walls
-	{
-		//check if out of bounds; move back in; apply restitution and bounce.
-		if(xPos >= BallGame.width - size)
-		{
-			xPos = BallGame.width - size;
-			if(xVel > 0)
-				xVel *= -restitution;
-		}
-		if(xPos <= size + BallGame.leftBounds)
-		{
-			xPos = size +BallGame.leftBounds;
-			if(xVel < 0)
-				xVel *= -restitution;
-		}
-		if(yPos >= BallGame.height - size)
-		{
-			yPos = BallGame.height - size;
-			if(yVel > 0)
-				yVel *= -restitution;
-		}
-		if(yPos <= size + BallGame.topBounds)
-		{
-			yPos = size + BallGame.topBounds;
-			if(yVel < 0)
-				yVel *= -restitution;
-		}
-
-		for(int i = 0; i < BallGame.walls.size(); i++)	//bounce off wall objects
-			BallGame.walls.get(i).collide(this);
 	}
 
 	public void collideBounce(Player other)
@@ -385,9 +348,9 @@ public class Player
 
 	public void checkPowerUps()
 	{
-		for(int i = 0; i < BallGame.items.size(); i++)
+		for(int i = 0; i < BallGameStatic.items.size(); i++)
 		{
-			Item p = BallGame.items.get(i);
+			Item p = BallGameStatic.items.get(i);
 			if(p.colliding(this))
 				p.givePowerUp(this);
 		}
@@ -402,7 +365,7 @@ public class Player
 
 	public void removeFromWorld()	//removes self from main list of players
 	{
-		BallGame.players.remove(BallGame.players.indexOf(this));
+		BallGameStatic.players.remove(BallGameStatic.players.indexOf(this));
 	}
 
 	public void addHealth(int delta)
@@ -414,22 +377,22 @@ public class Player
 
 	public void giveshield(int durationSeconds)
 	{
-		BallGame.powerups.add(new Shield(this,durationSeconds));
+		BallGameStatic.powerups.add(new Shield(this,durationSeconds));
 	}
 	
 	public void giveOrbital(int durationSeconds, OrbitalItem item)
 	{
-		BallGame.powerups.add(new Orbital(this,durationSeconds,item));
+		BallGameStatic.powerups.add(new Orbital(this,durationSeconds,item));
 	}
 	
 	public void giveTripleShot(int durationSeconds)
 	{
-		BallGame.powerups.add(new TripleShot(this,durationSeconds));
+		BallGameStatic.powerups.add(new TripleShot(this,durationSeconds));
 	}
 	
 	public void giveFastShot(int durationSeconds)
 	{
-		BallGame.powerups.add(new FastShot(this,durationSeconds));
+		BallGameStatic.powerups.add(new FastShot(this,durationSeconds));
 	}
 
 	//simple distance formula.  Shouldn't really be in here.

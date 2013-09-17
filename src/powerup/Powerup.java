@@ -1,11 +1,12 @@
 package powerup;
 
+import entity.Entity;
 import entity.Player;
-import game.BallGame;
+import game.BallGameStatic;
 
 import java.awt.Graphics;
 
-public class Powerup
+public class Powerup extends Entity
 {
 	public long birthTime;
 	public long deathTime;
@@ -38,6 +39,6 @@ public class Powerup
 	protected void removeFromWorld()	//removes self from main list of players
 	{
 		removeEffect();
-		BallGame.powerups.remove(BallGame.powerups.indexOf(this));
+		BallGameStatic.powerups.remove(BallGameStatic.powerups.indexOf(this));
 	}
 }
