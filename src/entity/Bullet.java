@@ -1,11 +1,9 @@
 package entity;
 import camera.Camera;
-import game.BallGameStatic;
 
 import java.awt.*;
 
 import powerup.Orbital;
-import powerup.Powerup;
 import shape.Polygon2D;
 
 public class Bullet extends Entity
@@ -16,9 +14,9 @@ public class Bullet extends Entity
 	public double speed;	//Constant speed.  No FRICTION for bullets.
 	Player parent;	//Sets parent player.  Will not interact with parent.
 	boolean alive = true;
-	int explosionTimer = 50; //explosion will show for explosionTimer milliseconds
+	int explosionTimer = 200; //explosion will show for explosionTimer milliseconds
 
-	static final double homingForce = 3;
+	static final float HOMING_FORCE = .005f;
 
 	public int bounces = 2;	//How many times it will bounce before going away
     public float size;
@@ -50,9 +48,9 @@ public class Bullet extends Entity
 		{
 			//draw bullet if alive
 			g.setColor(color);
-			Camera.fillOval(xPos, yPos, radius*2, radius*2, g);
+			Camera.fillCenteredOval(xPos, yPos, radius*2, radius*2, g);
 			g.setColor(Color.black);
-			Camera.drawOval(xPos, yPos, radius*2, radius*2, g);
+			Camera.drawCenteredOval(xPos, yPos, radius*2, radius*2, g);
 		}
 		else
 		{
@@ -84,23 +82,23 @@ public class Bullet extends Entity
 		}
 	}
 
-	public void move(int del)
-	{		
-		double delta = (double)del/15;
+	public void tick(int delta)
+	{
 		if(!alive)	//handles explosion
 		{
 			if(explosionTimer < 0)
-				removeFromWorld();	//remove if done exploding
+				removeFromList();	//remove if done exploding
 			else
-				explosionTimer--;	//count down to removal
+				explosionTimer -= delta;	//count down to removal
 			return;
 		}
 
-		gravitateToPlayers(delta);
-		gravitateToBullets(delta);
+		gravitate(delta);
 
 		xPos+=xVel*delta;	//apply movement
 		yPos+=yVel*delta;
+
+        updateBoundingBox();
 	}
 
     public void updateBoundingBox() {
@@ -122,6 +120,8 @@ public class Bullet extends Entity
                 onCollide((Orbital)other);
             else if(other instanceof Player)
                 onCollide((Player)other);
+            else if(other instanceof Wall)
+                onCollide((Wall)other);
     }
 
     public void onCollide(Bullet other) {
@@ -131,8 +131,7 @@ public class Bullet extends Entity
 
     public void onCollide(Orbital other) {
         if(other.parent != this.parent)	//make sure to not hit its compadre
-            if(other.colliding(this))	//If they're colliding kill itself
-            {
+            if(other.colliding(this)) {	//If they're colliding kill itself
                 other.health--;
                 alive = false;
             }
@@ -145,45 +144,66 @@ public class Bullet extends Entity
         }
     }
 
-	public void gravitateToPlayers(double delta)
-	{		
-		for(int i = 0; i < BallGameStatic.players. size(); i++)
-		{
-			Player p = BallGameStatic.players.get(i);
-			if(p != parent)
-			{
-				double angle = Math.atan2(p.yPos-yPos,p.xPos-xPos);
-				double force = homingForce*Math.pow(Math.PI,2)*Math.pow(radius,2)*Math.pow(p.radius,2)/Math.pow(distance(xPos,yPos,p.xPos,p.yPos),2);
-				double mass = Math.PI*Math.pow(radius,2);
-				double pmass =  Math.PI*Math.pow(p.radius,2);
+    public void onCollide(Wall other) {
+        double collideAngle = Math.atan2(yPos - other.yPos, xPos - other.xPos);
 
-				xVel += (force*Math.cos(angle)/mass)*delta;
-				yVel += (force*Math.sin(angle)/mass)*delta;
-				speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
+        if(collideAngle >= other.ULangle) {
+            xVel = -Math.abs(xVel);
+            xPos = other.xMin - radius;
+        }
+        else if(collideAngle >= other.URangle) {
+            yVel = Math.abs(yVel);
+            yPos = other.yMax + radius;
+        }
+        else if(collideAngle >= other.LRangle) {
+            xVel = Math.abs(xVel);
+            xPos = other.xMax + radius;
+        }
+        else if(collideAngle >= other.LLangle) {
+            yVel = -Math.abs(yVel);
+            yPos = other.yMin - radius;
+        }
+        else {
+            xVel = -Math.abs(xVel);
+            xPos = other.xMin - radius;
+        }
+        bounces--;
+        if(bounces < 0)
+            alive = false;
+    }
 
-				p.xVel -= (force*Math.cos(angle)/pmass)*delta;
-				p.yVel -= (force*Math.sin(angle)/pmass)*delta;
-			}
-		}
-	}
+    public void gravitate(int delta) {
+        for(Entity e : Entity.entities) {
+            if(e instanceof Player)
+                if(e != parent) {
+                    Player p = (Player)e;
+                    double angle = Math.atan2(p.yPos-yPos,p.xPos-xPos);
+                    double force = HOMING_FORCE *Math.pow(Math.PI,2)*Math.pow(radius,2)*Math.pow(p.radius,2)/Math.pow(distance(xPos,yPos,p.xPos,p.yPos),2);
+                    double mass = Math.PI*Math.pow(radius,2);
+                    double pmass =  Math.PI*Math.pow(p.radius,2);
 
-	public void gravitateToBullets(double delta)
-	{
-		for(int i = 0; i < BallGameStatic.bullets.size(); i++)
-		{
-			Bullet b = BallGameStatic.bullets.get(i);
-			if(b != this)
-			{
-				double angle = Math.atan2(b.yPos-yPos,b.xPos-xPos);
-				double force = homingForce*Math.pow(Math.PI,2)*Math.pow(radius,2)*Math.pow(b.radius,2)/Math.pow(distance(xPos,yPos,b.xPos,b.yPos),2);
-				double mass = Math.PI*radius*radius;
+                    xVel += (force*Math.cos(angle)/mass)*delta;
+                    yVel += (force*Math.sin(angle)/mass)*delta;
+                    speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
 
-				xVel += (force*Math.cos(angle)/mass)*delta;
-				yVel += (force*Math.sin(angle)/mass)*delta;
-				speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-			}
-		}
-	}
+                    p.xVel -= (force*Math.cos(angle)/pmass)*delta;
+                    p.yVel -= (force*Math.sin(angle)/pmass)*delta;
+                }
+            if(e instanceof Bullet)
+                if(e != this) {
+                    Bullet b = (Bullet)e;
+                    if(b.parent != this.parent) {
+                        double angle = Math.atan2(b.yPos-yPos,b.xPos-xPos);
+                        double force = HOMING_FORCE *Math.pow(Math.PI,2)*Math.pow(radius,2)*Math.pow(b.radius,2)/Math.pow(distance(xPos,yPos,b.xPos,b.yPos),2);
+                        double mass = Math.PI*radius*radius;
+
+                        xVel += (force*Math.cos(angle)/mass)*delta;
+                        yVel += (force*Math.sin(angle)/mass)*delta;
+                        speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
+                    }
+                }
+        }
+    }
 
 	public void hit(Player targ)	//bullet hits player
 	{
@@ -197,11 +217,6 @@ public class Bullet extends Entity
 
 		targ.xVel += speed*Math.cos(direction)*(Math.pow(radius,2)/Math.pow(targ.radius,2));	//apply force to player for knockback
 		targ.yVel += speed*Math.sin(direction)*(Math.pow(radius,2)/Math.pow(targ.radius,2));
-	}
-
-	public void removeFromWorld()	//remove from main list of bullets
-	{
-		BallGameStatic.bullets.remove(BallGameStatic.bullets.indexOf(this));
 	}
 
 	//simple distance formula.  Shouldn't really be in here.

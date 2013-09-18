@@ -122,9 +122,6 @@ public class Orbital extends Powerup
 			if(yVel < 0)
 				yVel *= -restitution;
 		}
-
-		for(int i = 0; i < BallGameStatic.walls.size(); i++)	//bounce off wall objects
-			BallGameStatic.walls.get(i).collide(this);
 	}
 	
 	public void collideWithPlayers()

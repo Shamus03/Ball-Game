@@ -30,8 +30,8 @@ public class Player extends Entity
 	public float bulletSize;
 	float bulletSpeed;
 
-	public final double FRICTION = .999;	//deceleration of player each frame
-	public final double RESTITUTION = .6;	//bounciness from walls
+	public final float FRICTION = .999f;	//deceleration of player each frame
+	public final float RESTITUTION = .6f;	//bounciness from walls
 
 	int explosionTimer = 1000; //explosion will show for explosionTimer milliseconds
 
@@ -315,6 +315,8 @@ public class Player extends Entity
 	public void onCollide(Entity other) {
         if(other instanceof Player)
             onCollide((Player)other);
+        if(other instanceof Wall)
+            onCollide((Wall)other);
 	}
 
     public void onCollide(Player other) {
@@ -338,6 +340,31 @@ public class Player extends Entity
 
         other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(RESTITUTION,2);
         other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(RESTITUTION,2);
+    }
+
+    public void onCollide(Wall other) {
+        double collideAngle = Math.atan2(yPos - other.yPos, xPos - other.xPos);
+
+        if(collideAngle >= other.ULangle) {
+            xVel = -Math.abs(xVel*RESTITUTION);
+            xPos = other.xMin - radius;
+        }
+        else if(collideAngle >= other.URangle) {
+            yVel = Math.abs(yVel*RESTITUTION);
+            yPos = other.yMax + radius;
+        }
+        else if(collideAngle >= other.LRangle) {
+            xVel = Math.abs(xVel*RESTITUTION);
+            xPos = other.xMax + radius;
+        }
+        else if(collideAngle >= other.LLangle) {
+            yVel = -Math.abs(yVel*RESTITUTION);
+            yPos = other.yMin - radius;
+        }
+        else {
+            xVel = -Math.abs(xVel*RESTITUTION);
+            xPos = other.xMin - radius;
+        }
     }
 
 	public void checkPowerUps()

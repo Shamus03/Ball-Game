@@ -144,8 +144,6 @@ public class BallGameStatic extends Applet
 
 		itemSpawner.attemptSpawn();	//spawn items
 
-		moveBullets(delta);
-		movePlayers(delta);
 		movePowerups(delta);
 		moveItems(delta);
 
@@ -155,9 +153,7 @@ public class BallGameStatic extends Applet
 
 		drawWalls();
 
-		drawPlayers();
 		drawPowerups();
-		drawBullets();
 		drawItems();
 	}
 	
@@ -317,30 +313,6 @@ public class BallGameStatic extends Applet
 			items.get(i).draw(gBuffer);
 	}
 
-	public void moveBullets(int delta)
-	{
-		for(int i = 0; i < bullets.size(); i++)	//move all bullets
-			bullets.get(i).move(delta);
-	}
-
-	public void drawBullets()
-	{
-		for(int i = 0; i < bullets.size(); i++)	//draw bullets in buffer
-			bullets.get(i).draw(gBuffer);
-	}
-
-	public void movePlayers(int delta)
-	{
-		for(int i = 0; i < players.size(); i++)	//move all players
-			players.get(i).tick(delta);
-	}
-
-	public void drawPlayers()
-	{
-		for(int i = 0; i < players.size(); i++)	//draw players in buffer
-			players.get(i).draw(gBuffer);
-	}
-	
 	public void collideOrbitals()
 	{
 		for(int i = 0; i < powerups.size() - 1; i++)		//collide all orbitals
