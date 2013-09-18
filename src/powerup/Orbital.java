@@ -49,8 +49,8 @@ public class Orbital extends Powerup
 		if(!colliding(parent))
 		{
 			double angle = Math.atan2(yPos- parent.getyPos(),xPos- parent.getxPos());
-			int endX = (int)(parent.getxPos() + parent.size*Math.cos(angle));
-			int endY = (int)(parent.getyPos() + parent.size*Math.sin(angle));
+			int endX = (int)(parent.getxPos() + parent.radius *Math.cos(angle));
+			int endY = (int)(parent.getyPos() + parent.radius *Math.sin(angle));
 
 			g.setColor(Color.black);
 			g.drawLine((int)xPos,(int)yPos,endX,endY);
@@ -84,7 +84,7 @@ public class Orbital extends Powerup
 		
 		double angle = Math.atan2(parent.getyPos() -yPos, parent.getxPos() -xPos);
 		
-		double distance = distance(xPos,yPos, parent.getxPos(), parent.getyPos()) - (parent.size*1.5);
+		double distance = distance(xPos,yPos, parent.getxPos(), parent.getyPos()) - (parent.radius *1.5);
 		if(distance < 0)
 			distance = 0;
 		
@@ -157,8 +157,8 @@ public class Orbital extends Powerup
 			double angle = Math.atan2(yPos- p.getyPos(),xPos- p.getxPos());
 			b.xVel = b.yVel = 0;
 			b.bounces = 0;
-			b.xPos = p.getxPos() + p.size*Math.cos(angle);
-			b.yPos = p.getyPos() + p.size*Math.sin(angle);
+			b.xPos = p.getxPos() + p.radius *Math.cos(angle);
+			b.yPos = p.getyPos() + p.radius *Math.sin(angle);
 			BallGameStatic.bullets.add(b);
 
 			health--;
@@ -170,7 +170,7 @@ public class Orbital extends Powerup
 	public boolean colliding(Player other)
 	{
 
-		if(distance(xPos,yPos, other.getxPos(), other.getyPos()) < size + other.size)
+		if(distance(xPos,yPos, other.getxPos(), other.getyPos()) < size + other.radius)
 			return true;
 		return false;
 	}
@@ -196,7 +196,7 @@ public class Orbital extends Powerup
 		double thisAngle = Math.atan2(yPos- other.getyPos(),xPos- other.getxPos());
 		double targAngle = Math.atan2(other.getyPos() -yPos, other.getxPos() -xPos);
 
-		double inside = Math.abs(distance(xPos,yPos, other.getxPos(), other.getyPos())-size-other.size);
+		double inside = Math.abs(distance(xPos,yPos, other.getxPos(), other.getyPos())-size-other.radius);
 
 		xPos += (inside/2)*Math.cos(thisAngle);
 		yPos += (inside/2)*Math.sin(thisAngle);
@@ -206,7 +206,7 @@ public class Orbital extends Powerup
 		double thisSpeed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
 		double targSpeed = Math.sqrt(Math.pow(other.getxVel(),2)+Math.pow(other.getyVel(),2));
 
-		double massRatio = Math.pow(other.size/(size*2),2);
+		double massRatio = Math.pow(other.radius /(size*2),2);
 
 		xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
 		yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);

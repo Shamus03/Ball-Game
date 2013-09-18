@@ -32,7 +32,7 @@ public class Shield extends Powerup
 			return;
 		
 		g.setColor(new Color(0,255,255,100));
-		fillCenteredCircle(parent.getxPos(), parent.getyPos(),parent.size+radius,g);
+		fillCenteredCircle(parent.getxPos(), parent.getyPos(),parent.radius +radius,g);
 		parent.shieldDrawn = true;
 	}
 	

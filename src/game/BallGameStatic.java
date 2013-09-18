@@ -73,7 +73,7 @@ public class BallGameStatic extends Applet
 		gBuffer = (Graphics2D)virtualMem.getGraphics();
 		gBuffer.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		setSize(width+10,height+10);	//set size of window
+		setSize(width+10,height+10);	//set radius of window
 
 		//add buttons
 		buttons.add(new Button(Location.MENU,400,300,200,75,"Start",Location.NEWGAME,Color.white));
@@ -149,7 +149,6 @@ public class BallGameStatic extends Applet
 		movePowerups(delta);
 		moveItems(delta);
 
-		collidePlayers(delta);
 		collideOrbitals();
 
 		gBuffer.clearRect(0,0,getWidth(),getHeight());	//clear buffer
@@ -341,20 +340,6 @@ public class BallGameStatic extends Applet
 		for(int i = 0; i < players.size(); i++)	//draw players in buffer
 			players.get(i).draw(gBuffer);
 	}
-
-	public void collidePlayers(int delta)
-	{
-		for(int i = 0; i < players.size() - 1; i++)		//collide all players
-		{
-			Player p1 = players.get(i);
-			for(int ii = i + 1; ii < players.size(); ii++)
-			{
-				Player p2 = players.get(ii);
-				if(p1.colliding(p2))
-					p1.collideBounce(p2);
-			}
-		}
-	}
 	
 	public void collideOrbitals()
 	{
@@ -384,7 +369,7 @@ public class BallGameStatic extends Applet
 			{
 				height = getHeight() - 10;		//set height/width variables
 				width = getWidth() - 10;
-				virtualMem = createImage(width+20,height+20);	//change buffer size
+				virtualMem = createImage(width+20,height+20);	//change buffer radius
 				gBuffer = (Graphics2D)virtualMem.getGraphics();
 				gBuffer.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			}

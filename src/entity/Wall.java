@@ -35,32 +35,32 @@ public class Wall extends Entity
 	{
 		if(p.yPos >= yMin && p.yPos <= yMax)	//left and right side collision
 		{
-			if(p.xPos + p.size >= xMin && p.xPos - p.xVel <= xMin)
+			if(p.xPos + p.radius >= xMin && p.xPos - p.xVel <= xMin)
 			{
-				p.xPos = xMin - p.size;
+				p.xPos = xMin - p.radius;
 				p.xVel *= -p.restitution;
 			}
-			if(p.xPos - p.size <= xMax && p.xPos - p.xVel >= xMax)
+			if(p.xPos - p.radius <= xMax && p.xPos - p.xVel >= xMax)
 			{
-				p.xPos = xMax + p.size;
+				p.xPos = xMax + p.radius;
 				p.xVel *= -p.restitution;
 			}
 		}
 		if(p.xPos >= xMin && p.xPos <= xMax)	//top and bottom side collision
 		{
-			if(p.yPos + p.size >= yMin && p.yPos - p.yVel <= yMin)
+			if(p.yPos + p.radius >= yMin && p.yPos - p.yVel <= yMin)
 			{
-				p.yPos = yMin - p.size;
+				p.yPos = yMin - p.radius;
 				p.yVel *= -p.restitution;
 			}
-			if(p.yPos - p.size <= yMax && p.yPos - p.yVel >= yMax)
+			if(p.yPos - p.radius <= yMax && p.yPos - p.yVel >= yMax)
 			{
-				p.yPos = yMax + p.size;
+				p.yPos = yMax + p.radius;
 				p.yVel *= -p.restitution;
 			}
 		}
 
-		if(p.distance(p.xPos,p.yPos,xMin,yMin) <= p.size)	//upper left corner collision
+		if(p.distance(p.xPos,p.yPos,xMin,yMin) <= p.radius)	//upper left corner collision
 		{
 			Double angle = Math.atan2(yMin-p.yPos,xMin-p.xPos);
 
@@ -69,11 +69,11 @@ public class Wall extends Entity
 			if(p.yVel > 0)
 				p.yVel *= -p.restitution*Math.sin(angle);
 
-			p.xPos = (float) (xMin - p.size*Math.cos(angle));
-			p.yPos = (float) (yMin - p.size*Math.sin(angle));
+			p.xPos = (float) (xMin - p.radius *Math.cos(angle));
+			p.yPos = (float) (yMin - p.radius *Math.sin(angle));
 		}
 
-		if(p.distance(p.xPos,p.yPos,xMin,yMax) <= p.size)	//lower left corner collision
+		if(p.distance(p.xPos,p.yPos,xMin,yMax) <= p.radius)	//lower left corner collision
 		{
 			Double angle = Math.atan2(yMax-p.yPos,xMin-p.xPos);
 
@@ -82,11 +82,11 @@ public class Wall extends Entity
 			if(p.yVel < 0)
 				p.yVel *= p.restitution*Math.sin(angle);
 
-			p.xPos = (float) (xMin - p.size*Math.cos(angle));
-			p.yPos = (float) (yMax - p.size*Math.sin(angle));
+			p.xPos = (float) (xMin - p.radius *Math.cos(angle));
+			p.yPos = (float) (yMax - p.radius *Math.sin(angle));
 		}
 
-		if(p.distance(p.xPos,p.yPos,xMax,yMin) <= p.size)	//upper right corner collision
+		if(p.distance(p.xPos,p.yPos,xMax,yMin) <= p.radius)	//upper right corner collision
 		{
 			Double angle = Math.atan2(yMin-p.yPos,xMax-p.xPos);
 
@@ -95,11 +95,11 @@ public class Wall extends Entity
 			if(p.yVel > 0)
 				p.yVel *= -p.restitution*Math.sin(angle);
 
-			p.xPos = (float) (xMax - p.size*Math.cos(angle));
-			p.yPos = (float) (yMin - p.size*Math.sin(angle));
+			p.xPos = (float) (xMax - p.radius *Math.cos(angle));
+			p.yPos = (float) (yMin - p.radius *Math.sin(angle));
 		}
 
-		if(p.distance(p.xPos,p.yPos,xMax,yMax) <= p.size)	//lower right corner collision
+		if(p.distance(p.xPos,p.yPos,xMax,yMax) <= p.radius)	//lower right corner collision
 		{
 			Double angle = Math.atan2(yMax-p.yPos,xMax-p.xPos);
 
@@ -108,8 +108,8 @@ public class Wall extends Entity
 			if(p.yVel < 0)
 				p.yVel *= p.restitution*Math.sin(angle);
 
-			p.xPos = (float) (xMax - p.size*Math.cos(angle));
-			p.yPos = (float) (yMax - p.size*Math.sin(angle));
+			p.xPos = (float) (xMax - p.radius *Math.cos(angle));
+			p.yPos = (float) (yMax - p.radius *Math.sin(angle));
 		}
 
 	}

@@ -32,8 +32,8 @@ public class Bullet
 
 		color = parent.color;
 
-		xPos = parent.xPos + parent.size*Math.cos(parent.direction);	//sets position to just in front of parent player
-		yPos = parent.yPos + parent.size*Math.sin(parent.direction);
+		xPos = parent.xPos + parent.radius *Math.cos(parent.direction);	//sets position to just in front of parent player
+		yPos = parent.yPos + parent.radius *Math.sin(parent.direction);
 
 		xVel = speed * Math.cos(parent.direction) + parent.xVel;	//sets velocities relative to player
 		yVel = speed * Math.sin(parent.direction) + parent.yVel;
@@ -148,9 +148,9 @@ public class Bullet
 			if(p != parent)
 			{
 				double angle = Math.atan2(p.yPos-yPos,p.xPos-xPos);
-				double force = homingForce*Math.pow(Math.PI,2)*Math.pow(size,2)*Math.pow(p.size,2)/Math.pow(distance(xPos,yPos,p.xPos,p.yPos),2);
+				double force = homingForce*Math.pow(Math.PI,2)*Math.pow(size,2)*Math.pow(p.radius,2)/Math.pow(distance(xPos,yPos,p.xPos,p.yPos),2);
 				double mass = Math.PI*Math.pow(size,2);
-				double pmass =  Math.PI*Math.pow(p.size,2);
+				double pmass =  Math.PI*Math.pow(p.radius,2);
 
 				xVel += (force*Math.cos(angle)/mass)*delta;
 				yVel += (force*Math.sin(angle)/mass)*delta;
@@ -182,7 +182,7 @@ public class Bullet
 
 	public boolean colliding(Player other)	//check if colliding with a specific player
 	{
-		if(parent.distance(xPos,yPos,other.xPos,other.yPos) <= size + other.size)
+		if(parent.distance(xPos,yPos,other.xPos,other.yPos) <= size + other.radius)
 			return true;
 		return false;
 	}
@@ -204,8 +204,8 @@ public class Bullet
 
 		double direction = Math.atan2(targ.yPos-yPos, targ.xPos-xPos);	//get collision angle
 
-		targ.xVel += speed*Math.cos(direction)*(Math.pow(size,2)/Math.pow(targ.size,2));	//apply force to player for knockback
-		targ.yVel += speed*Math.sin(direction)*(Math.pow(size,2)/Math.pow(targ.size,2));
+		targ.xVel += speed*Math.cos(direction)*(Math.pow(size,2)/Math.pow(targ.radius,2));	//apply force to player for knockback
+		targ.yVel += speed*Math.sin(direction)*(Math.pow(size,2)/Math.pow(targ.radius,2));
 	}
 
 	public void removeFromWorld()	//remove from main list of bullets

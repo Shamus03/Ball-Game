@@ -97,7 +97,7 @@ public class Item extends Entity
 
 	public boolean colliding(Player p)
 	{
-		if(distance(xPos,yPos,p.getxPos(),p.getyPos()) <= size+p.size )
+		if(distance(xPos,yPos,p.getxPos(),p.getyPos()) <= size+p.radius)
 			return true;
 		return false;
 	}

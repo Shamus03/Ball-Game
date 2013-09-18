@@ -19,6 +19,6 @@ public class ShieldItem extends Item
 
 	public void supplyEffect(Player p)
 	{
-		p.giveshield(durationSeconds);
+		p.giveShield(durationSeconds);
 	}
 }

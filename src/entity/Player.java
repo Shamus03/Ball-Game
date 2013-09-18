@@ -13,7 +13,7 @@ import shape.Polygon2D;
 
 public class Player extends Entity
 {
-	public float size;	//radius of player
+	public float radius;	//radius of player
 	double direction;
 	private double speed;	//accel speed
 	private boolean up,down,left,right = false;	//which keys are pressed
@@ -72,33 +72,16 @@ public class Player extends Entity
 		}
 
 		direction = Math.random()*2*Math.PI;	//random direction
-		size = 60;
+		radius = 30;
 		speed = .3;		//Max speed will be (speed/(1-friction))
 
 
 		xPos = 0;
         yPos = 0;
 
-		boolean validLocation = false;
-		while(!validLocation)
-		{
-			validLocation = true;
-			for(int i = 0; i < BallGameStatic.walls.size(); i++)
-			{
-				if(BallGameStatic.walls.get(i).bounds.contains(xPos,yPos))
-				{
-					validLocation = false;
-					xPos = (int)(Math.random()*((BallGameStatic.width- BallGameStatic.leftBounds)-size*2)+size+ BallGameStatic.leftBounds);	//random location
-					yPos = (int)(Math.random()*((BallGameStatic.height- BallGameStatic.topBounds)-size*2)+size+ BallGameStatic.topBounds);
-				}
-				if(!validLocation)
-					break;
-			}
-		}
-
 		shielded = shieldDrawn = tripleShot = false;
 
-		bulletSize = size/6;
+		bulletSize = radius /6;
 		bulletSpeed = 10;
 	}
 
@@ -113,15 +96,15 @@ public class Player extends Entity
 		if(alive)
 		{
 			//draw player if alive
-			float jetSize = .65f;	//sets jet's length
+			float jetSize = 1.3f;	//sets jet's length
 			int jetAngle = 15;	//sets jet's width
 
 			if(up)	//if up is held, draw flame
 			{
 				Random r = new Random();
-				float flameSize = size/3;
-                float jetX = (float) (xPos + size * jetSize * Math.cos(direction + Math.PI));
-                float jetY = (float) (yPos + size * jetSize * Math.sin(direction + Math.PI));
+				float flameSize = radius *2/3;
+                float jetX = (float) (xPos + radius * jetSize * Math.cos(direction + Math.PI));
+                float jetY = (float) (yPos + radius * jetSize * Math.sin(direction + Math.PI));
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())	// 7/8 chance to draw each flame part.  1/8 to skip. (creates random flicker)
 				{
 					g.setColor(Color.red);
@@ -144,35 +127,34 @@ public class Player extends Entity
 			g.setColor(Color.gray);	//create jet polygon
 			Polygon2D jet = new Polygon2D();
 			jet.addPoint(xPos, yPos);
-			jet.addPoint((float) (xPos - size*jetSize*Math.cos(direction - Math.toRadians(jetAngle))), (float) (yPos - size*jetSize*Math.sin(direction - Math.toRadians(jetAngle))));
-			jet.addPoint((float) (xPos - size*jetSize*Math.cos(direction + Math.toRadians(jetAngle))), (float) (yPos - size*jetSize*Math.sin(direction + Math.toRadians(jetAngle))));
+			jet.addPoint((float) (xPos - radius *jetSize*Math.cos(direction - Math.toRadians(jetAngle))), (float) (yPos - radius *jetSize*Math.sin(direction - Math.toRadians(jetAngle))));
+			jet.addPoint((float) (xPos - radius *jetSize*Math.cos(direction + Math.toRadians(jetAngle))), (float) (yPos - radius *jetSize*Math.sin(direction + Math.toRadians(jetAngle))));
 			Camera.fillPolygon2D(jet, g);			//draw jet
 			g.setColor(Color.black);
 			Camera.drawPolygon2D(jet, g);			//draw jet outline
 
-			float healthSize = size * health/healthMax;	//size of health ring
+			float healthSize = radius*2 * health/healthMax;	//radius of health ring
 
 			g.setColor(Color.black);	//draw initial circle
-			Camera.fillCenteredOval(xPos, yPos, size, size, g);
+			Camera.fillCenteredOval(xPos, yPos, radius*2, radius*2, g);
 
 			g.setColor(color);			//draw colored center
 			Camera.fillCenteredOval(xPos, yPos, healthSize, healthSize, g);
 
-//          Disabled until Camera.fillArc is implemented
-//			g.setColor(color);			//draw colored direction pointer
-//			Camera.fillArc((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2),(int)(-Math.toDegrees(direction)-15),30,g);
+			g.setColor(color);			//draw colored direction pointer
+			Camera.fillArc(xPos, yPos, radius, radius,(int)(Math.toDegrees(direction)-15),30,g);
 
-//			g.setColor(Color.black);	//draw inside direction pointer
-//			Camera.fillArc((int)(xPos-healthSize),(int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2),(int)(-Math.toDegrees(direction)-15),30,g);
+			g.setColor(Color.black);	//draw inside direction pointer
+			Camera.fillArc(xPos, yPos, healthSize, healthSize,(int)(Math.toDegrees(direction)-15),30,g);
 
 			g.setColor(Color.black);	//draw outer black ring
-			Camera.drawCenteredOval(xPos, yPos, size, size, g);
+			Camera.drawCenteredOval(xPos, yPos, radius*2, radius*2, g);
 		}
 		else
 		{
 			if(!initialGrowth)
 			{
-				size *= 2.7;
+				radius *= 2.7;
 				initialGrowth = true;
 			}
 			
@@ -186,10 +168,10 @@ public class Player extends Entity
 			
 			//draw explosion if not alive
 			if(downscale)
-				size *= .9;
+				radius *= .9;
 			g.setColor(Color.red);
-			Camera.fillOval(xPos-size, yPos-size,size*2,size*2,g);
-			double size2 = (double)2/3*size;	//scales next part of explosion down a bit
+			Camera.fillOval(xPos- radius, yPos- radius, radius *2, radius *2,g);
+			double size2 = (double)2/3* radius;	//scales next part of explosion down a bit
 			g.setColor(Color.orange);
 			Camera.fillOval((float)(xPos-size2), (float)(yPos-size2),(float)(size2*2),(float)(size2*2),g);
 			double size3 = (double)1/2*size2;	//scales next part of explosion down a bit
@@ -230,6 +212,11 @@ public class Player extends Entity
 		if(right)
 			direction -= .1*delta;
 
+        if(Input.Q)
+            Camera.scale *= 1.001;
+        if(Input.Z)
+            Camera.scale /= 1.001;
+
 		direction %= 2*Math.PI;	//prevent over-rotating.  Comment this line out and the player's direction arcs won't draw properly
 
 		xVel *= Math.pow(friction, delta);	//apply deceleration force
@@ -238,7 +225,8 @@ public class Player extends Entity
 		xPos+=xVel*delta;	//move player
 		yPos+=yVel*delta;
 
-		checkPowerUps();
+		updateBoundingBox();
+        checkPowerUps();
 	}
 
 	public void shoot()
@@ -252,8 +240,8 @@ public class Player extends Entity
 		Bullet b = new Bullet(this,bulletSize,bulletSpeed);	//add bullet to list of bullets
 		BallGameStatic.bullets.add(b);
 
-		xVel -= b.speed*Math.cos(direction)*(Math.pow(b.size/size,2));	//apply knockback force
-		yVel -= b.speed*Math.sin(direction)*(Math.pow(b.size/size,2));
+		xVel -= b.speed*Math.cos(direction)*(Math.pow(b.size/ radius,2));	//apply knockback force
+		yVel -= b.speed*Math.sin(direction)*(Math.pow(b.size/ radius,2));
 		
 		if(tripleShot)
 			shootTriple(direction);
@@ -266,8 +254,8 @@ public class Player extends Entity
 		for(int i = 0; i < 2; i++)
 		{
 			Bullet b = new Bullet(this,bulletSize,bulletSpeed);
-			b.xPos = xPos + size*Math.cos(direction+Math.pow(-1,i)*tripleShotAngle);
-			b.yPos = yPos + size*Math.sin(direction+Math.pow(-1,i)*tripleShotAngle);
+			b.xPos = xPos + radius *Math.cos(direction+Math.pow(-1,i)*tripleShotAngle);
+			b.yPos = yPos + radius *Math.sin(direction+Math.pow(-1,i)*tripleShotAngle);
 			b.xVel = xVel + bulletSpeed*Math.cos(direction+Math.pow(-1,i)*tripleShotAngle);
 			b.yVel = yVel + bulletSpeed*Math.sin(direction+Math.pow(-1,i)*tripleShotAngle);
 			b.speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
@@ -324,29 +312,44 @@ public class Player extends Entity
 		}
 	}
 
-	public void collideBounce(Player other)
-	{		
-		double thisAngle = Math.atan2(yPos-other.yPos,xPos-other.xPos);
-		double targAngle = Math.atan2(other.yPos-yPos,other.xPos-xPos);
+    public void updateBoundingBox() {
+        boundingBox = new Polygon2D();
+        int numPoints = 12;
+        for(int i = 0; i < numPoints; i++) {
+            double angle = i*Math.PI*2/numPoints;
+            float pointX = (float) (radius * Math.cos(angle) + xPos);
+            float pointY = (float) (radius * Math.sin(angle) + yPos);
+            boundingBox.addPoint(pointX, pointY);
+        }
+    }
 
-		double inside = Math.abs(distance(xPos,yPos,other.xPos,other.yPos)-size-other.size);
-
-		xPos += (inside/2)*Math.cos(thisAngle);
-		yPos += (inside/2)*Math.sin(thisAngle);
-		other.xPos += (inside/2)*Math.cos(targAngle);
-		other.yPos += (inside/2)*Math.sin(targAngle);
-
-		double thisSpeed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-		double targSpeed = Math.sqrt(Math.pow(other.xVel,2)+Math.pow(other.yVel,2));
-
-		double massRatio = Math.pow(other.size/size,2);
-
-		xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
-		yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);
-
-		other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(restitution,2);
-		other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(restitution,2);
+	public void onCollide(Entity other) {
+        if(other instanceof Player)
+            onCollide((Player)other);
 	}
+
+    public void onCollide(Player other) {
+        double thisAngle = Math.atan2(yPos-other.yPos,xPos-other.xPos);
+        double targAngle = Math.atan2(other.yPos-yPos,other.xPos-xPos);
+
+        double inside = Math.abs(distance(xPos,yPos,other.xPos,other.yPos)- radius -other.radius);
+
+        xPos += (inside/2)*Math.cos(thisAngle);
+        yPos += (inside/2)*Math.sin(thisAngle);
+        other.xPos += (inside/2)*Math.cos(targAngle);
+        other.yPos += (inside/2)*Math.sin(targAngle);
+
+        double thisSpeed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
+        double targSpeed = Math.sqrt(Math.pow(other.xVel,2)+Math.pow(other.yVel,2));
+
+        double massRatio = Math.pow(other.radius / radius,2);
+
+        xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
+        yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);
+
+        other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(restitution,2);
+        other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(restitution,2);
+    }
 
 	public void checkPowerUps()
 	{
@@ -356,13 +359,6 @@ public class Player extends Entity
 			if(p.colliding(this))
 				p.givePowerUp(this);
 		}
-	}
-
-	public boolean colliding(Player other)	//checks if players are touching
-	{
-		if(distance(xPos,yPos,other.xPos,other.yPos) < size + other.size)
-			return true;
-		return false;
 	}
 
 	public void removeFromWorld()	//removes self from main list of players
@@ -377,7 +373,7 @@ public class Player extends Entity
 			health = healthMax;
 	}
 
-	public void giveshield(int durationSeconds)
+	public void giveShield(int durationSeconds)
 	{
 		BallGameStatic.powerups.add(new Shield(this,durationSeconds));
 	}
