@@ -15,7 +15,8 @@ public class Player extends Entity
 {
 	public float radius;	//radius of player
 	double direction;
-	private double speed;	//accel speed
+	private float speed;	//accel speed
+    private float turnSpeed;
 	private boolean up,down,left,right = false;	//which keys are pressed
 	Color color;
 	public int controlScheme = 0;			//determines controls and color for player
@@ -25,18 +26,18 @@ public class Player extends Entity
 	private long lastShot = System.currentTimeMillis();
 	private long nextShot = System.currentTimeMillis();
 	private int shotDelay = 450;
-	
-	public double bulletSize;
-	double bulletSpeed;
 
-	public final double friction = .99;	//deceleration of player each frame
-	public final double restitution = .6;	//bounciness from walls
+	public float bulletSize;
+	float bulletSpeed;
 
-	int explosionTimer = 100; //explosion will show for explosionTimer frames
+	public final double FRICTION = .999;	//deceleration of player each frame
+	public final double RESTITUTION = .6;	//bounciness from walls
+
+	int explosionTimer = 1000; //explosion will show for explosionTimer milliseconds
 
 	int hits = 0;	//how many times this player has hit another
-	public final int healthMax = 50;	//max (starting) health
-	public int health = healthMax;
+	public final int HEALTHMAX = 50;	//max (starting) health
+	public int health = HEALTHMAX;
 
 	public boolean shielded;
 	public boolean shieldDrawn;
@@ -73,8 +74,8 @@ public class Player extends Entity
 
 		direction = Math.random()*2*Math.PI;	//random direction
 		radius = 30;
-		speed = .3;		//Max speed will be (speed/(1-friction))
-
+		speed = .001f;		//Max speed will be (speed/(1-FRICTION))
+        turnSpeed = .007f;
 
 		xPos = 0;
         yPos = 0;
@@ -82,7 +83,7 @@ public class Player extends Entity
 		shielded = shieldDrawn = tripleShot = false;
 
 		bulletSize = radius /6;
-		bulletSpeed = 10;
+		bulletSpeed = .5f;
 	}
 
 	long lastDownscale = System.currentTimeMillis();
@@ -133,7 +134,7 @@ public class Player extends Entity
 			g.setColor(Color.black);
 			Camera.drawPolygon2D(jet, g);			//draw jet outline
 
-			float healthSize = radius*2 * health/healthMax;	//radius of health ring
+			float healthSize = radius*2 * health/ HEALTHMAX;	//radius of health ring
 
 			g.setColor(Color.black);	//draw initial circle
 			Camera.fillCenteredOval(xPos, yPos, radius*2, radius*2, g);
@@ -142,7 +143,7 @@ public class Player extends Entity
 			Camera.fillCenteredOval(xPos, yPos, healthSize, healthSize, g);
 
 			g.setColor(color);			//draw colored direction pointer
-			Camera.fillArc(xPos, yPos, radius, radius,(int)(Math.toDegrees(direction)-15),30,g);
+			Camera.fillArc(xPos, yPos, radius*2, radius*2,(int)(Math.toDegrees(direction)-15),30,g);
 
 			g.setColor(Color.black);	//draw inside direction pointer
 			Camera.fillArc(xPos, yPos, healthSize, healthSize,(int)(Math.toDegrees(direction)-15),30,g);
@@ -157,39 +158,27 @@ public class Player extends Entity
 				radius *= 2.7;
 				initialGrowth = true;
 			}
-			
-			boolean downscale = false;
-			if(System.currentTimeMillis() >= nextDownscale)
-			{
-				downscale = true;
-				lastDownscale = System.currentTimeMillis();
-				nextDownscale = lastDownscale + downscaleDelay;
-			}
-			
-			//draw explosion if not alive
-			if(downscale)
-				radius *= .9;
+
 			g.setColor(Color.red);
-			Camera.fillOval(xPos- radius, yPos- radius, radius *2, radius *2,g);
+			Camera.fillCenteredOval(xPos, yPos, radius *2, radius *2,g);
 			double size2 = (double)2/3* radius;	//scales next part of explosion down a bit
 			g.setColor(Color.orange);
-			Camera.fillOval((float)(xPos-size2), (float)(yPos-size2),(float)(size2*2),(float)(size2*2),g);
+			Camera.fillCenteredOval(xPos, yPos,(float)(size2*2),(float)(size2*2),g);
 			double size3 = (double)1/2*size2;	//scales next part of explosion down a bit
 			g.setColor(Color.yellow);
-			Camera.fillOval((float)(xPos-size3), (float)(yPos-size3),(float)(size3*2),(float)(size3*2),g);
+			Camera.fillCenteredOval(xPos, yPos,(float)(size3*2),(float)(size3*2),g);
 		}
 	}
 
-	public void tick(int del)
+	public void tick(int delta)
 	{
-		double delta = (double)del/15;
-
 		if(!alive)	//if dead, do nothing
 		{
-			if(explosionTimer < 0)
-				removeFromWorld();	//remove when done exploding
+			radius *= Math.pow(.995, delta);
+            if(explosionTimer < 0)
+				removeFromList();	//remove when done exploding
 			else
-				explosionTimer--;	//count down to removal
+				explosionTimer -= delta;	//count down to removal
 			return;
 		}
 		if(health <= 0)	//kill if health is less than zero	
@@ -208,19 +197,19 @@ public class Player extends Entity
 				shoot();
 		}
 		if(left)		//rotate
-			direction += .1*delta;
+			direction += turnSpeed*delta;
 		if(right)
-			direction -= .1*delta;
+			direction -= turnSpeed*delta;
 
         if(Input.Q)
-            Camera.scale *= 1.001;
+            Camera.scale *= Math.pow(1.001, delta);
         if(Input.Z)
-            Camera.scale /= 1.001;
+            Camera.scale /= Math.pow(1.001, delta);
 
 		direction %= 2*Math.PI;	//prevent over-rotating.  Comment this line out and the player's direction arcs won't draw properly
 
-		xVel *= Math.pow(friction, delta);	//apply deceleration force
-		yVel *= Math.pow(friction, delta);
+		xVel *= Math.pow(FRICTION, delta);	//apply deceleration force
+		yVel *= Math.pow(FRICTION, delta);
 
 		xPos+=xVel*delta;	//move player
 		yPos+=yVel*delta;
@@ -238,10 +227,10 @@ public class Player extends Entity
 			nextShot = lastShot + shotDelay;
 		
 		Bullet b = new Bullet(this,bulletSize,bulletSpeed);	//add bullet to list of bullets
-		BallGameStatic.bullets.add(b);
+		b.addToList();
 
-		xVel -= b.speed*Math.cos(direction)*(Math.pow(b.size/ radius,2));	//apply knockback force
-		yVel -= b.speed*Math.sin(direction)*(Math.pow(b.size/ radius,2));
+		xVel -= b.speed*Math.cos(direction)*(Math.pow(b.radius/ radius,2));	//apply knockback force
+		yVel -= b.speed*Math.sin(direction)*(Math.pow(b.radius/ radius,2));
 		
 		if(tripleShot)
 			shootTriple(direction);
@@ -254,10 +243,10 @@ public class Player extends Entity
 		for(int i = 0; i < 2; i++)
 		{
 			Bullet b = new Bullet(this,bulletSize,bulletSpeed);
-			b.xPos = xPos + radius *Math.cos(direction+Math.pow(-1,i)*tripleShotAngle);
-			b.yPos = yPos + radius *Math.sin(direction+Math.pow(-1,i)*tripleShotAngle);
-			b.xVel = xVel + bulletSpeed*Math.cos(direction+Math.pow(-1,i)*tripleShotAngle);
-			b.yVel = yVel + bulletSpeed*Math.sin(direction+Math.pow(-1,i)*tripleShotAngle);
+			b.xPos = (float) (xPos + radius *Math.cos(direction+Math.pow(-1,i)*tripleShotAngle));
+			b.yPos = (float) (yPos + radius *Math.sin(direction+Math.pow(-1,i)*tripleShotAngle));
+			b.xVel = (float) (xVel + bulletSpeed*Math.cos(direction+Math.pow(-1,i)*tripleShotAngle));
+			b.yVel = (float) (yVel + bulletSpeed*Math.sin(direction+Math.pow(-1,i)*tripleShotAngle));
 			b.speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
 			BallGameStatic.bullets.add(b);
 		}
@@ -344,11 +333,11 @@ public class Player extends Entity
 
         double massRatio = Math.pow(other.radius / radius,2);
 
-        xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
-        yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);
+        xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(RESTITUTION,2);
+        yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(RESTITUTION,2);
 
-        other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(restitution,2);
-        other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(restitution,2);
+        other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(RESTITUTION,2);
+        other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(RESTITUTION,2);
     }
 
 	public void checkPowerUps()
@@ -361,16 +350,11 @@ public class Player extends Entity
 		}
 	}
 
-	public void removeFromWorld()	//removes self from main list of players
-	{
-		BallGameStatic.players.remove(BallGameStatic.players.indexOf(this));
-	}
-
 	public void addHealth(int delta)
 	{
 		health += delta;
-		if(health > healthMax)
-			health = healthMax;
+		if(health > HEALTHMAX)
+			health = HEALTHMAX;
 	}
 
 	public void giveShield(int durationSeconds)

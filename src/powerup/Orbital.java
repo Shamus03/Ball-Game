@@ -97,7 +97,7 @@ public class Orbital extends Powerup
 	
 	public void wallClip()	//bounce off walls
 	{
-		//check if out of bounds; move back in; apply restitution and bounce.
+		//check if out of bounds; move back in; apply RESTITUTION and bounce.
 		if(xPos >= BallGameStatic.width - size)
 		{
 			xPos = BallGameStatic.width - size;
@@ -155,10 +155,11 @@ public class Orbital extends Powerup
 			
 			Bullet b = new Bullet(parent, parent.bulletSize, 0);
 			double angle = Math.atan2(yPos- p.getyPos(),xPos- p.getxPos());
-			b.xVel = b.yVel = 0;
+			b.setxVel(0);
+            b.setyVel(0);
 			b.bounces = 0;
-			b.xPos = p.getxPos() + p.radius *Math.cos(angle);
-			b.yPos = p.getyPos() + p.radius *Math.sin(angle);
+			b.setxPos((float) (p.getxPos() + p.radius * Math.cos(angle)));
+			b.setyPos((float) (p.getyPos() + p.radius * Math.sin(angle)));
 			BallGameStatic.bullets.add(b);
 
 			health--;
@@ -178,7 +179,7 @@ public class Orbital extends Powerup
 	public boolean colliding(Bullet other)
 	{
 
-		if(distance(xPos,yPos,other.xPos,other.yPos) < size + other.size)
+		if(distance(xPos,yPos, other.getxPos(), other.getyPos()) < size + other.size)
 			return true;
 		return false;
 	}

@@ -25,7 +25,7 @@ public class HealthItem extends Item
 
 	public void supplyEffect(Player p)
 	{
-		p.addHealth((int)(p.healthMax*percentRefill));
+		p.addHealth((int)(p.HEALTHMAX *percentRefill));
 	}
 
 	public void drawEffect(Graphics g)
