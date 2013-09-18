@@ -125,8 +125,7 @@ public class Bullet extends Entity
     }
 
     public void onCollide(Bullet other) {
-        if(other.alive)
-            alive = other.alive = false;
+        alive = false;
     }
 
     public void onCollide(Orbital other) {

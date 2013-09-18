@@ -19,12 +19,13 @@ public class MainClass {
         player1.setxPos(100);
         player1.addToList();
         Entity player2 = new Player(2);
+        player2.setxPos(-100);
         player2.addToList();
 
-        new Wall(498,400,510,-400).addToList();
-        new Wall(-498,400,-510,-400).addToList();
-        new Wall(-510,360,510,400).addToList();
-        new Wall(-510,-360,510,-400).addToList();
+        new Wall(-520,380,520,360).addToList();
+        new Wall(-520,-380,520,-360).addToList();
+        new Wall(-520,380,-500,-380).addToList();
+        new Wall(520,380,500,-380).addToList();
 
         game = new Game();
         frame = new GameFrame("Ball Game",game);
