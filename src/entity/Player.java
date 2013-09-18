@@ -72,7 +72,7 @@ public class Player extends Entity
 		}
 
 		direction = Math.random()*2*Math.PI;	//random direction
-		size = 30;
+		size = 60;
 		speed = .3;		//Max speed will be (speed/(1-friction))
 
 
@@ -113,48 +113,50 @@ public class Player extends Entity
 		if(alive)
 		{
 			//draw player if alive
-			double jetSize = 1.3;	//sets jet's length
+			float jetSize = .65f;	//sets jet's length
 			int jetAngle = 15;	//sets jet's width
 
 			if(up)	//if up is held, draw flame
 			{
 				Random r = new Random();
-				double flameSize = size/3;
+				float flameSize = size/3;
+                float jetX = (float) (xPos + size * jetSize * Math.cos(direction + Math.PI));
+                float jetY = (float) (yPos + size * jetSize * Math.sin(direction + Math.PI));
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())	// 7/8 chance to draw each flame part.  1/8 to skip. (creates random flicker)
 				{
 					g.setColor(Color.red);
-					Camera.fillOval((int) (xPos + size * jetSize * Math.cos(direction + Math.PI) - flameSize), (int) (yPos + size * jetSize * Math.sin(direction + Math.PI) - flameSize), (int) (flameSize * 2), (int) (flameSize * 2),g);
+					Camera.fillCenteredOval(jetX, jetY, flameSize, flameSize, g);
 				}
 				flameSize *= (double)2/3;
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())
 				{
 					g.setColor(Color.orange);
-					Camera.fillOval((int) (xPos + size * jetSize * Math.cos(direction + Math.PI) - flameSize), (int) (yPos + size * jetSize * Math.sin(direction + Math.PI) - flameSize), (int) (flameSize * 2), (int) (flameSize * 2), g);
+					Camera.fillCenteredOval(jetX, jetY, flameSize, flameSize, g);
 				}
 				flameSize *= (double)1/2;
 				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())
 				{
 					g.setColor(Color.yellow);
-					Camera.fillOval((int) (xPos + size * jetSize * Math.cos(direction + Math.PI) - flameSize), (int) (yPos + size * jetSize * Math.sin(direction + Math.PI) - flameSize), (int) (flameSize * 2), (int) (flameSize * 2), g);
+					Camera.fillCenteredOval(jetX, jetY, flameSize, flameSize, g);
 				}
 			}
 
 			g.setColor(Color.gray);	//create jet polygon
 			Polygon2D jet = new Polygon2D();
-			jet.addPoint((int)xPos,(int)yPos);
-			jet.addPoint((int)(xPos - size*jetSize*Math.cos(direction - Math.toRadians(jetAngle))),(int)(yPos - size*jetSize*Math.sin(direction - Math.toRadians(jetAngle))));
-			jet.addPoint((int)(xPos - size*jetSize*Math.cos(direction + Math.toRadians(jetAngle))),(int)(yPos - size*jetSize*Math.sin(direction + Math.toRadians(jetAngle))));
-			Camera.fillPolygon2D(jet,g);			//draw jet
+			jet.addPoint(xPos, yPos);
+			jet.addPoint((float) (xPos - size*jetSize*Math.cos(direction - Math.toRadians(jetAngle))), (float) (yPos - size*jetSize*Math.sin(direction - Math.toRadians(jetAngle))));
+			jet.addPoint((float) (xPos - size*jetSize*Math.cos(direction + Math.toRadians(jetAngle))), (float) (yPos - size*jetSize*Math.sin(direction + Math.toRadians(jetAngle))));
+			Camera.fillPolygon2D(jet, g);			//draw jet
 			g.setColor(Color.black);
-			Camera.drawPolygon2D(jet,g);			//draw jet outline
+			Camera.drawPolygon2D(jet, g);			//draw jet outline
 
-			double healthSize = size * health/healthMax;	//size of health ring
+			float healthSize = size * health/healthMax;	//size of health ring
 
 			g.setColor(Color.black);	//draw initial circle
-			Camera.fillOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2),g);
+			Camera.fillCenteredOval(xPos, yPos, size, size, g);
 
 			g.setColor(color);			//draw colored center
-			Camera.fillOval((int)(xPos-healthSize), (int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2),g);
+			Camera.fillCenteredOval(xPos, yPos, healthSize, healthSize, g);
 
 //          Disabled until Camera.fillArc is implemented
 //			g.setColor(color);			//draw colored direction pointer
@@ -164,7 +166,7 @@ public class Player extends Entity
 //			Camera.fillArc((int)(xPos-healthSize),(int)(yPos-healthSize),(int)(healthSize*2),(int)(healthSize*2),(int)(-Math.toDegrees(direction)-15),30,g);
 
 			g.setColor(Color.black);	//draw outer black ring
-			Camera.drawOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2),g);
+			Camera.drawCenteredOval(xPos, yPos, size, size, g);
 		}
 		else
 		{
@@ -224,9 +226,9 @@ public class Player extends Entity
 				shoot();
 		}
 		if(left)		//rotate
-			direction -= .1*delta;
-		if(right)
 			direction += .1*delta;
+		if(right)
+			direction -= .1*delta;
 
 		direction %= 2*Math.PI;	//prevent over-rotating.  Comment this line out and the player's direction arcs won't draw properly
 
