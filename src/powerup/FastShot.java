@@ -8,8 +8,7 @@ public class FastShot extends Powerup
 		super(parent,durationTime);
 	}
 	
-	public void move(int delta)
-	{
+	public void tick(int delta) {
 		parent.fastShot = true;
 		if(System.currentTimeMillis() >= deathTime)
 			removeFromList();

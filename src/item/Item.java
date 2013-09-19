@@ -94,7 +94,7 @@ public class Item extends Entity
        givePowerUp(p);
     }
 
-	public void drawEffect(Graphics g)
+	public void drawEffect(Graphics2D g)
 	{
 		//Add effect to extended classes
 	}

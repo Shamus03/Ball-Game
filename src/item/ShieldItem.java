@@ -1,5 +1,6 @@
 package item;
 import entity.Player;
+import powerup.Shield;
 
 import java.awt.Color;
 
@@ -17,6 +18,6 @@ public class ShieldItem extends Item
 	}
 
 	public void supplyEffect(Player p) {
-		p.giveShield(durationSeconds);
+        new Shield(p,durationSeconds).addToList();
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.*;
 
 import camera.Camera;
 import entity.Player;
+import powerup.FastShot;
 
 public class FastShotItem extends Item
 {
@@ -17,7 +18,7 @@ public class FastShotItem extends Item
 	}
 	
 	public void supplyEffect(Player p) {
-		p.giveFastShot(DURATION_SECONDS);
+        new FastShot(p,DURATION_SECONDS).addToList();
 	}
 	
 	public void drawEffect(Graphics2D g) {

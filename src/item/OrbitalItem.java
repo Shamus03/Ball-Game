@@ -3,6 +3,7 @@ package item;
 import java.awt.Color;
 
 import entity.Player;
+import powerup.Orbital;
 
 public class OrbitalItem extends Item
 {
@@ -14,6 +15,6 @@ public class OrbitalItem extends Item
 	}
 	
 	public void supplyEffect(Player p) {
-		p.giveOrbital(durationSeconds,this);
-	}
+        new Orbital(p,durationSeconds,this).addToList();
+    }
 }

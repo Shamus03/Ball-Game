@@ -11,8 +11,7 @@ import input.*;
 import shape.Polygon2D;
 
 
-public class Player extends Entity
-{
+public class Player extends Entity {
 	public float radius;	//radius of player
 	double direction;
 	private float speed;	//accel speed
@@ -46,12 +45,10 @@ public class Player extends Entity
 
 	public boolean alive = true;	//shows whether player is alive (prevents bullets from hitting exploding players)
 	
-	public Player(int c)
-	{
+	public Player(int c) {
 		controlScheme = c;
 
-		switch(c)	//sets color according to controls
-		{
+		switch(c) {	//sets color according to controls
 		case 0:
 			color = new Color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
 			break;
@@ -90,36 +87,30 @@ public class Player extends Entity
 	int downscaleDelay = 15;
 	long nextDownscale = System.currentTimeMillis() + downscaleDelay;
 	boolean initialGrowth = false;
-	public void draw(Graphics2D g)
-	{
+	public void draw(Graphics2D g) {
 		shieldDrawn = false;
 		
-		if(alive)
-		{
+		if(alive) {
 			//draw player if alive
 			float jetSize = 1.3f;	//sets jet's length
 			int jetAngle = 15;	//sets jet's width
 
-			if(up)	//if up is held, draw flame
-			{
+			if(up) {	//if up is held, draw flame
 				Random r = new Random();
 				float flameSize = radius *2/3;
                 float jetX = (float) (xPos + radius * jetSize * Math.cos(direction + Math.PI));
                 float jetY = (float) (yPos + radius * jetSize * Math.sin(direction + Math.PI));
-				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())	// 7/8 chance to draw each flame part.  1/8 to skip. (creates random flicker)
-				{
+				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean()) {	// 7/8 chance to draw each flame part.  1/8 to skip. (creates random flicker)
 					g.setColor(Color.red);
 					Camera.fillCenteredOval(jetX, jetY, flameSize, flameSize, g);
 				}
 				flameSize *= (double)2/3;
-				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())
-				{
+				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean()) {
 					g.setColor(Color.orange);
 					Camera.fillCenteredOval(jetX, jetY, flameSize, flameSize, g);
 				}
 				flameSize *= (double)1/2;
-				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean())
-				{
+				if(r.nextBoolean()||r.nextBoolean()||r.nextBoolean()) {
 					g.setColor(Color.yellow);
 					Camera.fillCenteredOval(jetX, jetY, flameSize, flameSize, g);
 				}
@@ -151,10 +142,8 @@ public class Player extends Entity
 			g.setColor(Color.black);	//draw outer black ring
 			Camera.drawCenteredOval(xPos, yPos, radius*2, radius*2, g);
 		}
-		else
-		{
-			if(!initialGrowth)
-			{
+		else {
+			if(!initialGrowth) {
 				radius *= 2.7;
 				initialGrowth = true;
 			}
@@ -170,29 +159,26 @@ public class Player extends Entity
 		}
 	}
 
-	public void tick(int delta)
-	{
-		if(!alive)	//if dead, do nothing
-		{
+	public void tick(int delta) {
+		if(!alive) {	//if dead, do nothing
 			radius *= Math.pow(.995, delta);
             if(explosionTimer < 0)
 				removeFromList();	//remove when done exploding
 			else
 				explosionTimer -= delta;	//count down to removal
-			return;
+			return; //nothing more happens if it's dead
 		}
+
 		if(health <= 0)	//kill if health is less than zero	
 			alive = false;
 
 		updateControls(delta);	//updates control variables
 
-		if(up)
-		{
+		if(up) {
 			xVel += (speed * Math.cos(direction))*delta;	//applies force in player's direction
 			yVel += (speed * Math.sin(direction))*delta;
 		}
-		if(down)
-		{
+		if(down) {
 			if(System.currentTimeMillis() >= nextShot)
 				shoot();
 		}
@@ -215,7 +201,6 @@ public class Player extends Entity
 		yPos+=yVel*delta;
 
 		updateBoundingBox();
-        checkPowerUps();
 	}
 
 	public void shoot() {
@@ -246,7 +231,7 @@ public class Player extends Entity
 			b.xVel = (float) (xVel + bulletSpeed*Math.cos(direction+Math.pow(-1,i)*tripleShotAngle));
 			b.yVel = (float) (yVel + bulletSpeed*Math.sin(direction+Math.pow(-1,i)*tripleShotAngle));
 			b.speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-			BallGameStatic.bullets.add(b);
+			b.addToList();
 		}
 	}
 
@@ -365,36 +350,10 @@ public class Player extends Entity
         }
     }
 
-	public void checkPowerUps()
-	{
-		for(int i = 0; i < BallGameStatic.items.size(); i++)
-		{
-			Item p = BallGameStatic.items.get(i);
-			if(p.colliding(this))
-				p.givePowerUp(this);
-		}
-	}
-
 	public void addHealth(int delta) {
 		health += delta;
 		if(health > HEALTHMAX)
 			health = HEALTHMAX;
-	}
-
-	public void giveShield(int durationSeconds) {
-		new Shield(this,durationSeconds).addToList();
-	}
-	
-	public void giveOrbital(int durationSeconds, OrbitalItem item) {
-		new Orbital(this,durationSeconds,item).addToList();
-	}
-	
-	public void giveTripleShot(int durationSeconds) {
-		new TripleShot(this,durationSeconds).addToList();
-	}
-	
-	public void giveFastShot(int durationSeconds) {
-		new FastShot(this,durationSeconds).addToList();
 	}
 
 	//simple distance formula.  Shouldn't really be in here.

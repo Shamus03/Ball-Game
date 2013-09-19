@@ -37,7 +37,5 @@ public class MainClass {
         frame = new GameFrame("Ball Game",game);
         frame.setSize(1024,768);
         frame.setLocationRelativeTo(null);
-
-        new Orbital(player1, 1000, new OrbitalItem()).addToList();
     }
 }

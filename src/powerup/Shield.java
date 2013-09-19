@@ -1,8 +1,8 @@
 package powerup;
+import camera.Camera;
 import entity.Player;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 
 public class Shield extends Powerup
@@ -10,8 +10,7 @@ public class Shield extends Powerup
 	int depth;
 	int radius;
 
-	public Shield(Player p, int durationSeconds)
-	{
+	public Shield(Player p, int durationSeconds) {
 		super(p,durationSeconds);
 		
 		parent = p;
@@ -25,24 +24,17 @@ public class Shield extends Powerup
 		parent.shielded = true;
 	}
 
-	public void draw(Graphics g)
-	{	
+	public void draw(Graphics2D g) {
 		parent.shielded = true;
 		if(parent.shieldDrawn)		//don't draw more than one shield
 			return;
 		
 		g.setColor(new Color(0,255,255,100));
-		fillCenteredCircle(parent.getxPos(), parent.getyPos(),parent.radius +radius,g);
+		Camera.fillCenteredOval(parent.getxPos(), parent.getyPos(), parent.radius * 2 + radius * 2, parent.radius * 2 + radius * 2, g);
 		parent.shieldDrawn = true;
 	}
 	
-	public void removeEffect()
-	{
+	public void removeEffect() {
 		parent.shielded = false;
-	}
-
-	void fillCenteredCircle(double cx, double cy, double radius, Graphics g)
-	{
-		g.fillOval((int)(cx-radius), (int)(cy-radius), (int)(radius*2), (int)(radius*2));
 	}
 }

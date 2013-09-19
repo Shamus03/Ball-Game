@@ -4,11 +4,12 @@ import java.awt.*;
 
 import camera.Camera;
 import entity.Player;
+import powerup.TripleShot;
 import shape.Polygon2D;
 
 public class TripleShotItem extends Item
 {
-	static final int durationSeconds = 3;
+	static final int DURATION_SECONDS = 3;
 	
 	static final float effectSize = .5f;
 	
@@ -18,7 +19,7 @@ public class TripleShotItem extends Item
 	}
 	
 	public void supplyEffect(Player p) {
-		p.giveTripleShot(durationSeconds);
+        new TripleShot(p, DURATION_SECONDS).addToList();
 	}
 	
 	public void drawEffect(Graphics2D g) {
