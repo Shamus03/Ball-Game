@@ -218,8 +218,7 @@ public class Player extends Entity
         checkPowerUps();
 	}
 
-	public void shoot()
-	{
+	public void shoot() {
 		lastShot = System.currentTimeMillis();
 		if(fastShot)
 			nextShot = lastShot + shotDelay/2;
@@ -236,8 +235,7 @@ public class Player extends Entity
 			shootTriple(direction);
 	}
 	
-	public void shootTriple(double direction)
-	{
+	public void shootTriple(double direction) {
 		double tripleShotAngle = .6;
 		
 		for(int i = 0; i < 2; i++)

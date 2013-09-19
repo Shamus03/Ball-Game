@@ -15,7 +15,7 @@ public class Item extends Entity
 	float targxPos;
 	float targyPos;
 
-	int startDistance;
+	float startDistance;
 
 	Color color;
 
@@ -29,10 +29,10 @@ public class Item extends Entity
 
 		radius = 10;
 
-		startDistance = (int)((Math.max(MainClass.frame.getWidth()+10, MainClass.frame.getHeight()+10)+radius)/1.5);
+		startDistance = Math.max(MainClass.frame.getWidth()+10, MainClass.frame.getHeight()+10)+radius;
 		double angle = Math.toRadians(Math.random()*360);		//random starting location
-		xPos = (float) ((BallGameStatic.width + 10)/2+startDistance*Math.cos(angle));
-		yPos = (float) ((MainClass.frame.getHeight() + 10)/2+startDistance*Math.sin(angle));
+		xPos = (float)(startDistance*Math.cos(angle));
+		yPos = (float)(startDistance*Math.sin(angle));
 
 		targxPos = (int)(Math.random()*((MainClass.frame.getWidth()- BallGameStatic.leftBounds)-radius*2)+radius+ BallGameStatic.leftBounds);	//random location
 		targyPos = (int)(Math.random()*((MainClass.frame.getHeight()- BallGameStatic.topBounds)-radius*2)+radius+ BallGameStatic.topBounds);
@@ -65,13 +65,13 @@ public class Item extends Entity
 
 	boolean isOutofView()
 	{
-		if(xPos - radius > MainClass.frame.getWidth() + 10 && xVel > 0)
+		if(xPos - radius > MainClass.frame.getWidth()/2 + 10 && xVel > 0)
 			return true;
-		if(xPos + radius < -10 && xVel < 0)
+		if(xPos + radius < -MainClass.frame.getWidth()/2 - 10 && xVel < 0)
 			return true;
-		if(yPos - radius > MainClass.frame.getHeight() + 10 && yVel > 0)
+		if(yPos - radius > MainClass.frame.getHeight()/2 + 10 && yVel > 0)
 			return true;
-		if(yPos + radius < -10 && yVel < 0)
+		if(yPos + radius < -MainClass.frame.getHeight()/2 - 10 && yVel < 0)
 			return true;
 		return false;
 	}

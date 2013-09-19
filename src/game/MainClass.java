@@ -6,6 +6,8 @@ import entity.Player;
 import entity.Wall;
 import frame.GameFrame;
 import item.ItemSpawner;
+import item.OrbitalItem;
+import powerup.Orbital;
 
 import java.awt.*;
 
@@ -16,15 +18,13 @@ public class MainClass {
     public static void main(String args[]) {
         Game BallGame = new Game();
 
-        Entity player1 = new Player(1);
+        Player player1 = new Player(1);
         player1.setxPos(100);
         player1.addToList();
-        Entity player2 = new Player(2);
+
+        Player player2 = new Player(2);
         player2.setxPos(-100);
         player2.addToList();
-        Entity player3 = new Player(4);
-        player3.setyPos(-100);
-        player3.addToList();
 
         new ItemSpawner(1,10).addToList();
 
@@ -37,5 +37,7 @@ public class MainClass {
         frame = new GameFrame("Ball Game",game);
         frame.setSize(1024,768);
         frame.setLocationRelativeTo(null);
+
+        new Orbital(player1, 1000, new OrbitalItem()).addToList();
     }
 }

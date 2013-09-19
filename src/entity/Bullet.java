@@ -129,11 +129,10 @@ public class Bullet extends Entity
     }
 
     public void onCollide(Orbital other) {
-        if(other.parent != this.parent)	//make sure to not hit its compadre
-            if(other.colliding(this)) {	//If they're colliding kill itself
-                other.health--;
-                alive = false;
-            }
+        if(other.parent != this.parent) {	//make sure to not hit its compadre
+            other.health--;
+            alive = false;
+        }
     }
 
     public void onCollide(Player other) {

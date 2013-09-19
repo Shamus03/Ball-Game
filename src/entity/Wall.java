@@ -9,8 +9,14 @@ import shape.Polygon2D;
 public class Wall extends Entity
 {
 
-	float xMin,yMin,xMax,yMax;
-    double ULangle, URangle, LLangle, LRangle;
+	public float xMin;
+    public float yMin;
+    public float xMax;
+    public float yMax;
+    public double ULangle;
+    public double URangle;
+    public double LLangle;
+    public double LRangle;
 
 	public Wall(int x1, int y1, int x2, int y2) {
 		boundingBox = new Polygon2D();
