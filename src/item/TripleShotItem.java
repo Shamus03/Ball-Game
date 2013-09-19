@@ -1,37 +1,34 @@
 package item;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.*;
 
+import camera.Camera;
 import entity.Player;
+import shape.Polygon2D;
 
 public class TripleShotItem extends Item
 {
 	static final int durationSeconds = 3;
 	
-	static final double effectSize = .5;
+	static final float effectSize = .5f;
 	
-	public TripleShotItem()
-	{
+	public TripleShotItem() {
 		super();
 		color = Color.green.darker();
 	}
 	
-	public void supplyEffect(Player p)
-	{
+	public void supplyEffect(Player p) {
 		p.giveTripleShot(durationSeconds);
 	}
 	
-	public void drawEffect(Graphics g)
-	{
-		Polygon triangle = new Polygon();
+	public void drawEffect(Graphics2D g) {
+		Polygon2D triangle = new Polygon2D();
 		
-		triangle.addPoint((int)xPos,(int)(yPos-size*effectSize));
-		triangle.addPoint((int)(xPos+size*effectSize),(int)(yPos+size*effectSize));
-		triangle.addPoint((int)(xPos-size*effectSize),(int)(yPos+size*effectSize));
+		triangle.addPoint(xPos,yPos-radius*effectSize);
+		triangle.addPoint(xPos+radius*effectSize,yPos+radius*effectSize);
+		triangle.addPoint(xPos-radius*effectSize,yPos+radius*effectSize);
 		
 		g.setColor(Color.yellow);
-		g.fillPolygon(triangle);
+		Camera.fillPolygon2D(triangle, g);
 	}
 }

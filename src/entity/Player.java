@@ -377,31 +377,26 @@ public class Player extends Entity
 		}
 	}
 
-	public void addHealth(int delta)
-	{
+	public void addHealth(int delta) {
 		health += delta;
 		if(health > HEALTHMAX)
 			health = HEALTHMAX;
 	}
 
-	public void giveShield(int durationSeconds)
-	{
-		BallGameStatic.powerups.add(new Shield(this,durationSeconds));
+	public void giveShield(int durationSeconds) {
+		new Shield(this,durationSeconds).addToList();
 	}
 	
-	public void giveOrbital(int durationSeconds, OrbitalItem item)
-	{
-		BallGameStatic.powerups.add(new Orbital(this,durationSeconds,item));
+	public void giveOrbital(int durationSeconds, OrbitalItem item) {
+		new Orbital(this,durationSeconds,item).addToList();
 	}
 	
-	public void giveTripleShot(int durationSeconds)
-	{
-		BallGameStatic.powerups.add(new TripleShot(this,durationSeconds));
+	public void giveTripleShot(int durationSeconds) {
+		new TripleShot(this,durationSeconds).addToList();
 	}
 	
-	public void giveFastShot(int durationSeconds)
-	{
-		BallGameStatic.powerups.add(new FastShot(this,durationSeconds));
+	public void giveFastShot(int durationSeconds) {
+		new FastShot(this,durationSeconds).addToList();
 	}
 
 	//simple distance formula.  Shouldn't really be in here.

@@ -10,15 +10,13 @@ public class ShieldItem extends Item
 	static final int secondsMin = 5;
 	static final int secondsMax = 8;
 
-	public ShieldItem()
-	{
+	public ShieldItem() {
 		super();
 		durationSeconds = (int)(Math.random()*(secondsMax-secondsMin))+secondsMin;
 		color = Color.cyan;
 	}
 
-	public void supplyEffect(Player p)
-	{
+	public void supplyEffect(Player p) {
 		p.giveShield(durationSeconds);
 	}
 }

@@ -1,13 +1,13 @@
 package powerup;
 
+import camera.Camera;
 import entity.Bullet;
 import entity.Player;
 import game.BallGameStatic;
 
 import item.OrbitalItem;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class Orbital extends Powerup
 {	
@@ -16,12 +16,7 @@ public class Orbital extends Powerup
 	
 	static final double friction = .99;
 	
-	public double xPos;
-	public double yPos;
-	public double xVel;
-	public double yVel;
-	
-	public double size;
+	public float size;
 	
 	public boolean alive = true;
 	
@@ -44,7 +39,7 @@ public class Orbital extends Powerup
 		color = Color.gray;
 	}
 	
-	public void draw(Graphics g)
+	public void draw(Graphics2D g)
 	{
 		if(!colliding(parent))
 		{
@@ -57,14 +52,14 @@ public class Orbital extends Powerup
 		}
 		
 		g.setColor(color);
-		g.fillOval((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2));
+		Camera.fillCenteredOval(xPos, yPos, size * 2, size * 2, g);
 		g.setColor(Color.black);
 		g.drawOval((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2));
 	}
 	
-	public void move(int delta)
+	public void tick(int delta)
 	{
-		super.move(delta);
+		super.tick(delta);
 		
 		springToPlayer(delta);
 		collideWithPlayers();
@@ -161,7 +156,7 @@ public class Orbital extends Powerup
 
 			health--;
 			if(health <= 0)
-				removeFromWorld();
+				removeFromList();
 		}
 	}
 	

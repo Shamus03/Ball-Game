@@ -1,46 +1,45 @@
 package item;
+import entity.Entity;
 import game.BallGameStatic;
 
 
-public class ItemSpawner
-{	
+public class ItemSpawner extends Entity {
 	long lastSpawn;
 	long nextSpawn;
 	int minDelay;
 	int maxDelay;
 
 
-	public enum ItemType
-	{					
+	public enum ItemType {
 		HEALTH		{public void addItem(){
-            BallGameStatic.items.add(new HealthItem());}},
+            new HealthItem().addToList();}},
 		SHIELD		{public void addItem(){
-            BallGameStatic.items.add(new ShieldItem());}},
+            new ShieldItem().addToList();}},
 		ORBITAL		{public void addItem(){
-            BallGameStatic.items.add(new OrbitalItem());}},
+            new OrbitalItem().addToList();}},
 		TRIPLESHOT	{public void addItem(){
-            BallGameStatic.items.add(new TripleShotItem());}},
+            new TripleShotItem().addToList();}},
 		FASTSHOT	{public void addItem(){
-            BallGameStatic.items.add(new FastShotItem());}};
+            new FastShotItem().addToList();}};
 		
-		public void addItem()
-		{
-			BallGameStatic.items.add(new Item());
+		public void addItem() {
+			new Item().addToList();
 		}
 	}
 	
-	public ItemSpawner(int min, int max)
-	{
+	public ItemSpawner(int min, int max) {
 		minDelay = min;
 		maxDelay = max;
 		
 		lastSpawn = System.currentTimeMillis();
 	}
 
-	public void attemptSpawn()
-	{
-		if(System.currentTimeMillis() >= nextSpawn)
-		{
+    public void tick(int delta) {
+        attemptSpawn();
+    }
+
+	public void attemptSpawn() {
+		if(System.currentTimeMillis() >= nextSpawn) {
 			addRandomItem();
 			int delay = (int)(Math.random()*(maxDelay - minDelay))+minDelay;
 			lastSpawn = System.currentTimeMillis();
@@ -48,8 +47,7 @@ public class ItemSpawner
 		}
 	}
 
-	void addRandomItem()
-	{				
+	void addRandomItem() {
 		ItemType item = ItemType.values()[(int)(Math.random()*ItemType.values().length)];
 		item.addItem();
 	}

@@ -4,8 +4,7 @@ import entity.Player;
 
 public class FastShot extends Powerup
 {
-	public FastShot(Player parent, int durationTime)
-	{
+	public FastShot(Player parent, int durationTime) {
 		super(parent,durationTime);
 	}
 	
@@ -13,11 +12,10 @@ public class FastShot extends Powerup
 	{
 		parent.fastShot = true;
 		if(System.currentTimeMillis() >= deathTime)
-			removeFromWorld();
+			removeFromList();
 	}
 	
-	public void removeEffect()
-	{
+	public void removeEffect() {
 		parent.fastShot = false;
 	}
 }

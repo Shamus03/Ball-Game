@@ -13,7 +13,7 @@ public class TripleShot extends Powerup
 	{
 		parent.tripleShot = true;
 		if(System.currentTimeMillis() >= deathTime)
-			removeFromWorld();
+			removeFromList();
 	}
 	
 	public void removeEffect()

@@ -5,11 +5,12 @@ import entity.Entity;
 import entity.Player;
 import entity.Wall;
 import frame.GameFrame;
+import item.ItemSpawner;
 
 import java.awt.*;
 
 public class MainClass {
-    static GameFrame frame;
+    public static GameFrame frame;
     static Game game;
 
     public static void main(String args[]) {
@@ -24,6 +25,8 @@ public class MainClass {
         Entity player3 = new Player(4);
         player3.setyPos(-100);
         player3.addToList();
+
+        new ItemSpawner(1,10).addToList();
 
         new Wall(-520,380,520,360).addToList();
         new Wall(-520,-380,520,-360).addToList();

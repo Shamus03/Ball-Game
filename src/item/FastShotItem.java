@@ -1,32 +1,29 @@
 package item;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
+import camera.Camera;
 import entity.Player;
 
 public class FastShotItem extends Item
 {
-	static final int durationSeconds = 3;
+	static final int DURATION_SECONDS = 3;
+
+	static final float EFFECT_SIZE = .5f;
 	
-	static final double effectSize = .5;
-	
-	public FastShotItem()
-	{
+	public FastShotItem() {
 		super();
 		color = Color.orange;
 	}
 	
-	public void supplyEffect(Player p)
-	{
-		p.giveFastShot(durationSeconds);
+	public void supplyEffect(Player p) {
+		p.giveFastShot(DURATION_SECONDS);
 	}
 	
-	public void drawEffect(Graphics g)
-	{
+	public void drawEffect(Graphics2D g) {
 		g.setColor(Color.black);
 		
-		g.fillRect((int)(xPos-size*effectSize-1),(int)(yPos-size*effectSize/2),(int)(size*effectSize),(int)(size*effectSize));
-		g.fillRect((int)(xPos+2),(int)(yPos-size*effectSize/2),(int)(size*effectSize),(int)(size*effectSize));
+		Camera.fillRect(xPos - radius* EFFECT_SIZE - 1, yPos - radius* EFFECT_SIZE /2, radius* EFFECT_SIZE, radius* EFFECT_SIZE, g);
+		Camera.fillRect(xPos+2, yPos - radius*EFFECT_SIZE/2, radius*EFFECT_SIZE, radius*EFFECT_SIZE, g);
 	}
 }
