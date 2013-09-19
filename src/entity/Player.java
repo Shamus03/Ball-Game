@@ -279,8 +279,8 @@ public class Player extends Entity
 			down	= Input.MOUSE_RIGHT;
 			left = right = false;			
 
-			double delta_x = Input.MOUSE_X - xPos;
-			double delta_y = Input.MOUSE_Y - yPos;
+			double delta_x = xPos - Camera.getMouseXPos();
+			double delta_y = yPos - Camera.getMouseYPos();
 			double angle = Math.toDegrees(Math.atan2(delta_y, delta_x));
 
 			double difference = angle - Math.toDegrees(direction);

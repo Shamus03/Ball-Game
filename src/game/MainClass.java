@@ -21,6 +21,9 @@ public class MainClass {
         Entity player2 = new Player(2);
         player2.setxPos(-100);
         player2.addToList();
+        Entity player3 = new Player(4);
+        player3.setyPos(-100);
+        player3.addToList();
 
         new Wall(-520,380,520,360).addToList();
         new Wall(-520,-380,520,-360).addToList();
