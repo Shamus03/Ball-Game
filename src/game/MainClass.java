@@ -1,15 +1,9 @@
 package game;
-import camera.Camera;
-import entity.CameraFocusEntity;
-import entity.Entity;
+
 import entity.Player;
 import entity.Wall;
 import frame.GameFrame;
 import item.ItemSpawner;
-import item.OrbitalItem;
-import powerup.Orbital;
-
-import java.awt.*;
 
 public class MainClass {
     public static GameFrame frame;
@@ -26,16 +20,16 @@ public class MainClass {
         player2.setxPos(-100);
         player2.addToList();
 
-        new ItemSpawner(1,10).addToList();
+        new ItemSpawner(1, 10).addToList();
 
-        new Wall(-520,380,520,360).addToList();
-        new Wall(-520,-380,520,-360).addToList();
-        new Wall(-520,380,-500,-380).addToList();
-        new Wall(520,380,500,-380).addToList();
+        new Wall(-520, 380, 520, 360).addToList();
+        new Wall(-520, -380, 520, -360).addToList();
+        new Wall(-520, 380, -500, -380).addToList();
+        new Wall(520, 380, 500, -380).addToList();
 
         game = new Game();
-        frame = new GameFrame("Ball Game",game);
-        frame.setSize(1024,768);
+        frame = new GameFrame("Ball Game", game);
+        frame.setSize(1024, 768);
         frame.setLocationRelativeTo(null);
     }
 }
