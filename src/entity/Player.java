@@ -16,8 +16,6 @@ public class Player extends Entity {
     public int controlScheme = 0;            //determines controls and color for player
     public float bulletSize;
     public int health = HEALTHMAX;
-    //	private int shotLength = 30;			//how many frames to wait for the next shot
-//	private int shootTimer = shotLength;	//shows how many frames ago the last shot was fired
     public boolean shielded;
     public boolean shieldDrawn;
     public boolean tripleShot;
@@ -28,9 +26,6 @@ public class Player extends Entity {
     float bulletSpeed;
     int explosionTimer = 1000; //explosion will show for explosionTimer milliseconds
     int hits = 0;    //how many times this player has hit another
-    long lastDownscale = System.currentTimeMillis();
-    int downscaleDelay = 15;
-    long nextDownscale = System.currentTimeMillis() + downscaleDelay;
     boolean initialGrowth = false;
     private float speed;    //accel speed
     private float turnSpeed;

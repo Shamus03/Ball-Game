@@ -10,8 +10,6 @@ public class MainClass {
     static Game game;
 
     public static void main(String args[]) {
-        Game BallGame = new Game();
-
         Player player1 = new Player(1);
         player1.setxPos(100);
         player1.addToList();
