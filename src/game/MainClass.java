@@ -10,6 +10,12 @@ public class MainClass {
     static Game game;
 
     public static void main(String args[]) {
+        game = new Game();
+        game.showFPS(true);
+        frame = new GameFrame("Ball Game", game);
+        frame.setSize(1024, 768);
+        frame.setLocationRelativeTo(null);
+
         Player player1 = new Player(1);
         player1.setxPos(100);
         player1.addToList();
@@ -24,10 +30,5 @@ public class MainClass {
         new Wall(-520, -380, 520, -360).addToList();
         new Wall(-520, 380, -500, -380).addToList();
         new Wall(520, 380, 500, -380).addToList();
-
-        game = new Game();
-        frame = new GameFrame("Ball Game", game);
-        frame.setSize(1024, 768);
-        frame.setLocationRelativeTo(null);
     }
 }
