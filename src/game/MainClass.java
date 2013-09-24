@@ -1,9 +1,13 @@
 package game;
 
+import entity.Entity;
 import entity.Player;
 import entity.Wall;
 import frame.GameFrame;
+import input.Input;
 import item.ItemSpawner;
+
+import java.util.ArrayList;
 
 public class MainClass {
     public static GameFrame frame;
@@ -30,5 +34,7 @@ public class MainClass {
         new Wall(-520, -380, 520, -360).addToList();
         new Wall(-520, 380, -500, -380).addToList();
         new Wall(520, 380, 500, -380).addToList();
+
+        Entity.addEntityList(Entity.entities);
     }
 }

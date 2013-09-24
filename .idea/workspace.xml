@@ -6,31 +6,21 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba697cf5-7878-433f-9c7e-c3a518292f57" name="Default" comment="removed some unnecessary variables">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/Ball_Game_jar.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="ba697cf5-7878-433f-9c7e-c3a518292f57" name="Default" comment="-Reorganized some code in MainClass and made the frame show the FPS">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/game/MainClass.java" afterPath="$PROJECT_DIR$/src/game/MainClass.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
-    <ignored path="Ball-Game.iws" />
+    <ignored path="Ball-Game.iml" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992158581" ignored="false" />
-    <file path="$PROJECT_DIR$/../Game-Package/.idea/workspace.xml" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992263072" ignored="false" />
-    <file path="/MainClass.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379991774574" ignored="false" />
+    <ignored path=".idea/" />
+    <ignored mask=".iml" />
+    <ignored mask=".idea" />
+    <file path="/Dummy.txt" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034959037" ignored="false" />
+    <file path="$PROJECT_DIR$/../Game-Package/.idea/workspace.xml" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992977830" ignored="false" />
+    <file path="/MainClass.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034767677" ignored="false" />
     <file path="/BallGame.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379450997203" ignored="false" />
     <file path="/Player.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379687063594" ignored="false" />
-    <file path="/Button.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379451873029" ignored="false" />
+    <file path="/Button.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034068177" ignored="false" />
     <file path="/BallGameStatic.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379603194094" ignored="false" />
     <file path="/*.regexp" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379452024223" ignored="false" />
     <file path="/Wall.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379516424411" ignored="false" />
@@ -40,7 +30,7 @@
     <file path="/ShieldItem.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379633664881" ignored="false" />
     <file path="/fragment.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379464330380" ignored="false" />
     <file path="/Camera.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379546447644" ignored="false" />
-    <file path="/Entity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379468092758" ignored="false" />
+    <file path="/Entity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034568402" ignored="false" />
     <file path="/Bullet.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379544530131" ignored="false" />
     <file path="$PROJECT_DIR$/../Game-Package/src/entity/CameraFocusEntity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379545466378" ignored="false" />
     <file path="/CameraFocusEntity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379545232361" ignored="false" />
@@ -58,6 +48,8 @@
     <file path="/Shield.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379633899889" ignored="false" />
     <file path="$PROJECT_DIR$/../Game-Package/src/game/Game.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992119139" ignored="false" />
     <file path="/Game.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992117324" ignored="false" />
+    <file path="/ToggleButton.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034095809" ignored="false" />
+    <file path="$PROJECT_DIR$/../Game-Package/src/entity/Entity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034574857" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,20 +110,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Player.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="184" column="0" selection-start="7591" selection-end="7591" vertical-scroll-proportion="0.37907377">
+            <state line="184" column="0" selection-start="7591" selection-end="7591" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainClass.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Button.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/input/Button.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="14" selection-start="249" selection-end="249" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BallGameStatic.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/BallGameStatic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="73" column="21" selection-start="2215" selection-end="2234" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ToggleButton.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/input/ToggleButton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="11" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainClass.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="27" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.7375643">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -159,10 +180,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/item/ItemSpawner.java" />
-        <option value="$PROJECT_DIR$/src/powerup/Powerup.java" />
         <option value="$PROJECT_DIR$/src/entity/Bullet.java" />
-        <option value="$PROJECT_DIR$/src/game/BallGameStatic.java" />
         <option value="$PROJECT_DIR$/src/item/Item.java" />
         <option value="$PROJECT_DIR$/src/powerup/TripleShot.java" />
         <option value="$PROJECT_DIR$/src/item/ShieldItem.java" />
@@ -174,6 +192,9 @@
         <option value="$PROJECT_DIR$/src/item/HealthItem.java" />
         <option value="$PROJECT_DIR$/src/powerup/Orbital.java" />
         <option value="$PROJECT_DIR$/src/entity/Player.java" />
+        <option value="$PROJECT_DIR$/src/game/BallGameStatic.java" />
+        <option value="$PROJECT_DIR$/src/input/Button.java" />
+        <option value="$PROJECT_DIR$/src/input/ToggleButton.java" />
         <option value="$PROJECT_DIR$/src/game/MainClass.java" />
       </list>
     </option>
@@ -229,7 +250,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -249,27 +269,94 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="input" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="275" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="292" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="settings.github" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="296" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Game-Package/src" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="299" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="971" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="978" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="292" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="285" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="FullScreen" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Ignored.Files" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
   </component>
@@ -310,6 +397,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -335,19 +435,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -473,7 +560,11 @@
       <created>1379687015586</created>
       <updated>1379687015586</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="-Reorganized some code in MainClass and made the frame show the FPS">
+      <created>1379992343081</created>
+      <updated>1379992343081</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -498,22 +589,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852387" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24386339" sideWeight="0.67074525" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39933258" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11686233" sideWeight="0.67741936" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11686233" sideWeight="0.67741936" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32258064" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -564,7 +655,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed some unnecessary variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Reorganized some code in MainClass and made the frame show the FPS" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -591,6 +682,7 @@
     <MESSAGE value="All items work as intended.  Items spawn randomly.  All that's left is reimplementation of a menu." />
     <MESSAGE value="Reformatted code and optimized imports." />
     <MESSAGE value="removed some unnecessary variables" />
+    <MESSAGE value="-Reorganized some code in MainClass and made the frame show the FPS" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -600,46 +692,24 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/item/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="37" selection-start="2289" selection-end="2289" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/BallGameStatic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="49" selection-start="3987" selection-end="3987" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/powerup/Shield.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="24" selection-start="412" selection-end="412" vertical-scroll-proportion="0.50428814">
-          <folding />
-        </state>
+        <state line="26" column="24" selection-start="412" selection-end="412" vertical-scroll-proportion="0.50428814" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/item/ShieldItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="48" selection-start="351" selection-end="351" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="18" column="48" selection-start="351" selection-end="351" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/powerup/FastShot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="32" selection-start="197" selection-end="197" vertical-scroll-proportion="0.2915952">
-          <folding />
-        </state>
+        <state line="10" column="32" selection-start="197" selection-end="197" vertical-scroll-proportion="0.2915952" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/item/OrbitalItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="42" selection-start="305" selection-end="305" vertical-scroll-proportion="0.40823328">
-          <folding />
-        </state>
+        <state line="17" column="42" selection-start="305" selection-end="305" vertical-scroll-proportion="0.40823328" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entity/Bullet.java">
@@ -651,16 +721,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/powerup/TripleShot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="20" selection-start="189" selection-end="189" vertical-scroll-proportion="0.2915952">
-          <folding />
-        </state>
+        <state line="10" column="20" selection-start="189" selection-end="189" vertical-scroll-proportion="0.2915952" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/item/TripleShotItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="37" selection-start="208" selection-end="208" vertical-scroll-proportion="0.17495711">
-          <folding />
-        </state>
+        <state line="11" column="37" selection-start="208" selection-end="208" vertical-scroll-proportion="0.17495711" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Game-Package/src/entity/Entity.java">
@@ -672,25 +738,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/item/FastShotItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="38" selection-start="618" selection-end="618" vertical-scroll-proportion="0.67066896">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/input/Button.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="193" selection-end="193" vertical-scroll-proportion="0.087478556">
-          <folding />
-        </state>
+        <state line="27" column="38" selection-start="618" selection-end="618" vertical-scroll-proportion="0.67066896" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/powerup/Orbital.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="36" selection-start="854" selection-end="854" vertical-scroll-proportion="1.0789022">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="37" column="36" selection-start="854" selection-end="854" vertical-scroll-proportion="1.0789022" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/item/HealthItem.java">
@@ -702,17 +755,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
+    <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="27" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+        <state line="184" column="0" selection-start="7591" selection-end="7591" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
+    <entry file="file://$PROJECT_DIR$/src/game/BallGameStatic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="0" selection-start="7591" selection-end="7591" vertical-scroll-proportion="0.37907377">
+        <state line="73" column="21" selection-start="2215" selection-end="2234" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/input/Button.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="14" selection-start="249" selection-end="249" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/input/ToggleButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="11" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.7375643">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
