@@ -46,6 +46,7 @@ public class MainClass {
         };
         Button startButton = new Button(400, 300, 200, 75, "Start", Color.white) {
             public void press() {
+                MainClass.createGame();
                 Entity.switchEntityList(1);
             }
         };
@@ -55,6 +56,8 @@ public class MainClass {
     }
 
     public static void createGame() {
+        gameList.clear();
+
         Player player1 = new Player(1);
         player1.setxPos(100);
         gameList.add(player1);
@@ -83,6 +86,14 @@ public class MainClass {
             }
         };
 
+        Entity gameOverlayEntity = new Entity() {
+            public void draw(Graphics2D g) {
+                for (Entity e : MainClass.gameList)
+                    e.draw(g);
+            }
+        };
+
+        pauseList.add(gameOverlayEntity);
         pauseList.add(menuButton);
         pauseList.add(resumeButton);
     }
