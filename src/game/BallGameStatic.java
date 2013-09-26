@@ -69,20 +69,20 @@ public class BallGameStatic extends Applet {
         setSize(width + 10, height + 10);    //set radius of window
 
         //add buttons
-        buttons.add(new Button(Location.MENU, 400, 300, 200, 75, "Start", Location.NEWGAME, Color.white));
-        buttons.add(new Button(Location.PAUSESCREEN, 20, 20, 200, 75, "Menu", Location.MENU, Color.gray));
-        buttons.add(new Button(Location.WIN, 400, 300, 200, 75, "Menu", Location.MENU, Color.gray));
-        buttons.add(new Button(Location.PAUSESCREEN, 400, 300, 200, 75, "Resume", Location.GAME, Color.gray));
+//        buttons.add(new Button(Location.MENU, 400, 300, 200, 75, "Start", Location.NEWGAME, Color.white));
+//        buttons.add(new Button(Location.PAUSESCREEN, 20, 20, 200, 75, "Menu", Location.MENU, Color.gray));
+//        buttons.add(new Button(Location.WIN, 400, 300, 200, 75, "Menu", Location.MENU, Color.gray));
+//        buttons.add(new Button(Location.PAUSESCREEN, 400, 300, 200, 75, "Resume", Location.GAME, Color.gray));
 
-        buttons.add(new ToggleButton(Location.MENU, 125, 500, 150, 75, "Blue", Color.blue) {
+        buttons.add(new ToggleButton(125, 500, 150, 75, "Blue", Color.blue) {
             public void init() {
                 setChosen(true);
             }
         });
-        buttons.add(new ToggleButton(Location.MENU, 325, 500, 150, 75, "Red", Color.red));
-        buttons.add(new ToggleButton(Location.MENU, 525, 500, 150, 75, "Green", Color.green));
+        buttons.add(new ToggleButton(325, 500, 150, 75, "Red", Color.red));
+        buttons.add(new ToggleButton(525, 500, 150, 75, "Green", Color.green));
 
-        buttons.add(new ToggleButton(Location.MENU, 725, 500, 150, 75, "Pink", Color.magenta) {
+        buttons.add(new ToggleButton(725, 500, 150, 75, "Pink", Color.magenta) {
             public void init() {
                 setChosen(true);
             }

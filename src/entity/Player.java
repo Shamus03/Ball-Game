@@ -171,6 +171,9 @@ public class Player extends Entity {
         if (right)
             direction -= turnSpeed * delta;
 
+        if (Input.P)
+            Entity.switchEntityList(2);
+
         direction %= 2 * Math.PI;    //prevent over-rotating.  Comment this line out and the player's direction arcs won't draw properly
 
         xVel *= Math.pow(FRICTION, delta);    //apply deceleration force
