@@ -4,10 +4,7 @@ import entity.Entity;
 import entity.Player;
 import entity.Wall;
 import frame.GameFrame;
-import input.Input;
 import item.ItemSpawner;
-
-import java.util.ArrayList;
 
 public class MainClass {
     public static GameFrame frame;

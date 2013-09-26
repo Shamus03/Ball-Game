@@ -6,9 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba697cf5-7878-433f-9c7e-c3a518292f57" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entity/Bullet.java" afterPath="$PROJECT_DIR$/src/entity/Bullet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entity/Player.java" afterPath="$PROJECT_DIR$/src/entity/Player.java" />
+    <list default="true" id="ba697cf5-7878-433f-9c7e-c3a518292f57" name="Default" comment="Fixed bullets still colliding after death&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/game/MainClass.java" afterPath="$PROJECT_DIR$/src/game/MainClass.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Ball-Game.iml" />
@@ -16,9 +15,9 @@
     <ignored path=".idea/" />
     <ignored mask=".iml" />
     <ignored mask=".idea" />
-    <file path="/Dummy.txt" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380205767694" ignored="false" />
+    <file path="/Dummy.txt" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380207905675" ignored="false" />
     <file path="$PROJECT_DIR$/../Game-Package/.idea/workspace.xml" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992977830" ignored="false" />
-    <file path="/MainClass.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034767677" ignored="false" />
+    <file path="/MainClass.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380207807619" ignored="false" />
     <file path="/BallGame.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379450997203" ignored="false" />
     <file path="/Player.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380207250568" ignored="false" />
     <file path="/Button.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034068177" ignored="false" />
@@ -111,10 +110,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Player.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="2543" selection-end="2543" vertical-scroll-proportion="0.3655914">
+            <state line="76" column="165" selection-start="2582" selection-end="2582" vertical-scroll-proportion="-30.6">
               <folding />
             </state>
           </provider>
@@ -123,7 +122,7 @@
       <file leaf-file-name="Bullet.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entity/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="120" column="34" selection-start="4269" selection-end="4269" vertical-scroll-proportion="0.0">
+            <state line="120" column="34" selection-start="4270" selection-end="4270" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -156,10 +155,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainClass.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainClass.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
+            <state line="25" column="28" selection-start="639" selection-end="639" vertical-scroll-proportion="0.47512865">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -203,9 +202,9 @@
         <option value="$PROJECT_DIR$/src/game/BallGameStatic.java" />
         <option value="$PROJECT_DIR$/src/input/Button.java" />
         <option value="$PROJECT_DIR$/src/input/ToggleButton.java" />
-        <option value="$PROJECT_DIR$/src/game/MainClass.java" />
         <option value="$PROJECT_DIR$/src/entity/Bullet.java" />
         <option value="$PROJECT_DIR$/src/entity/Player.java" />
+        <option value="$PROJECT_DIR$/src/game/MainClass.java" />
       </list>
     </option>
   </component>
@@ -599,7 +598,11 @@
       <created>1380035003880</created>
       <updated>1380035003880</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Fixed bullets still colliding after death&#10;">
+      <created>1380207603977</created>
+      <updated>1380207603977</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -690,11 +693,11 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made MainClass add the game list to the list of entity lists" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bullets still colliding after death&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
     <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
     <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
@@ -719,6 +722,7 @@
     <MESSAGE value="removed some unnecessary variables" />
     <MESSAGE value="-Reorganized some code in MainClass and made the frame show the FPS" />
     <MESSAGE value="Made MainClass add the game list to the list of entity lists" />
+    <MESSAGE value="Fixed bullets still colliding after death&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -805,26 +809,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/entity/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="34" selection-start="4269" selection-end="4269" vertical-scroll-proportion="0.0">
+        <state line="120" column="34" selection-start="4270" selection-end="4270" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="2543" selection-end="2543" vertical-scroll-proportion="0.3655914">
+        <state line="76" column="165" selection-start="2582" selection-end="2582" vertical-scroll-proportion="-30.6">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="28" selection-start="639" selection-end="639" vertical-scroll-proportion="0.47512865">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
