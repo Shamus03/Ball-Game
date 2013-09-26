@@ -6,8 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba697cf5-7878-433f-9c7e-c3a518292f57" name="Default" comment="-Reorganized some code in MainClass and made the frame show the FPS">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/game/MainClass.java" afterPath="$PROJECT_DIR$/src/game/MainClass.java" />
+    <list default="true" id="ba697cf5-7878-433f-9c7e-c3a518292f57" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entity/Bullet.java" afterPath="$PROJECT_DIR$/src/entity/Bullet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entity/Player.java" afterPath="$PROJECT_DIR$/src/entity/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Ball-Game.iml" />
@@ -15,11 +16,11 @@
     <ignored path=".idea/" />
     <ignored mask=".iml" />
     <ignored mask=".idea" />
-    <file path="/Dummy.txt" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034959037" ignored="false" />
+    <file path="/Dummy.txt" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380205767694" ignored="false" />
     <file path="$PROJECT_DIR$/../Game-Package/.idea/workspace.xml" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379992977830" ignored="false" />
     <file path="/MainClass.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034767677" ignored="false" />
     <file path="/BallGame.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379450997203" ignored="false" />
-    <file path="/Player.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379687063594" ignored="false" />
+    <file path="/Player.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380207250568" ignored="false" />
     <file path="/Button.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034068177" ignored="false" />
     <file path="/BallGameStatic.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379603194094" ignored="false" />
     <file path="/*.regexp" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379452024223" ignored="false" />
@@ -31,7 +32,7 @@
     <file path="/fragment.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379464330380" ignored="false" />
     <file path="/Camera.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379546447644" ignored="false" />
     <file path="/Entity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380034568402" ignored="false" />
-    <file path="/Bullet.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379544530131" ignored="false" />
+    <file path="/Bullet.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1380206718228" ignored="false" />
     <file path="$PROJECT_DIR$/../Game-Package/src/entity/CameraFocusEntity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379545466378" ignored="false" />
     <file path="/CameraFocusEntity.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379545232361" ignored="false" />
     <file path="$PROJECT_DIR$/../Game-Package/src/shape/Polygon2D.java" changelist="ba697cf5-7878-433f-9c7e-c3a518292f57" time="1379546086286" ignored="false" />
@@ -110,10 +111,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Player.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Player.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="184" column="0" selection-start="7591" selection-end="7591" vertical-scroll-proportion="0.0">
+            <state line="74" column="0" selection-start="2543" selection-end="2543" vertical-scroll-proportion="0.3655914">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Bullet.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/entity/Bullet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="120" column="34" selection-start="4269" selection-end="4269" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -146,10 +156,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainClass.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainClass.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.7375643">
+            <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -180,7 +190,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/entity/Bullet.java" />
         <option value="$PROJECT_DIR$/src/item/Item.java" />
         <option value="$PROJECT_DIR$/src/powerup/TripleShot.java" />
         <option value="$PROJECT_DIR$/src/item/ShieldItem.java" />
@@ -191,13 +200,17 @@
         <option value="$PROJECT_DIR$/src/item/FastShotItem.java" />
         <option value="$PROJECT_DIR$/src/item/HealthItem.java" />
         <option value="$PROJECT_DIR$/src/powerup/Orbital.java" />
-        <option value="$PROJECT_DIR$/src/entity/Player.java" />
         <option value="$PROJECT_DIR$/src/game/BallGameStatic.java" />
         <option value="$PROJECT_DIR$/src/input/Button.java" />
         <option value="$PROJECT_DIR$/src/input/ToggleButton.java" />
         <option value="$PROJECT_DIR$/src/game/MainClass.java" />
+        <option value="$PROJECT_DIR$/src/entity/Bullet.java" />
+        <option value="$PROJECT_DIR$/src/entity/Player.java" />
       </list>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
@@ -251,6 +264,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -319,21 +333,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ball-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="entity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="275" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="292" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="292" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
-    <property name="MemberChooser.sorted" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="296" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Game-Package/src" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="299" />
@@ -348,17 +379,17 @@
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Ignored.Files" />
+    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Application.MainClass">
     <configuration default="false" name="MainClass" type="Application" factoryName="Application" temporary="true">
@@ -397,19 +428,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -435,6 +453,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -564,7 +595,11 @@
       <created>1379992343081</created>
       <updated>1379992343081</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Made MainClass add the game list to the list of entity lists">
+      <created>1380035003880</created>
+      <updated>1380035003880</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -602,7 +637,7 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.67741936" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11686233" sideWeight="0.67741936" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32258064" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -655,7 +690,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Reorganized some code in MainClass and made the frame show the FPS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made MainClass add the game list to the list of entity lists" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -683,6 +718,7 @@
     <MESSAGE value="Reformatted code and optimized imports." />
     <MESSAGE value="removed some unnecessary variables" />
     <MESSAGE value="-Reorganized some code in MainClass and made the frame show the FPS" />
+    <MESSAGE value="Made MainClass add the game list to the list of entity lists" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -710,13 +746,6 @@
     <entry file="file://$PROJECT_DIR$/src/item/OrbitalItem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="42" selection-start="305" selection-end="305" vertical-scroll-proportion="0.40823328" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/entity/Bullet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="39" selection-start="3554" selection-end="3554" vertical-scroll-proportion="0.02915952">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/powerup/TripleShot.java">
@@ -755,13 +784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="0" selection-start="7591" selection-end="7591" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/game/BallGameStatic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="73" column="21" selection-start="2215" selection-end="2234" vertical-scroll-proportion="0.0">
@@ -785,10 +807,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/MainClass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.7375643">
+        <state line="37" column="46" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entity/Bullet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="34" selection-start="4269" selection-end="4269" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entity/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="2543" selection-end="2543" vertical-scroll-proportion="0.3655914">
+          <folding />
         </state>
       </provider>
     </entry>
