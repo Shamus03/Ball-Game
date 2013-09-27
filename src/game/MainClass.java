@@ -5,6 +5,7 @@ import entity.Player;
 import entity.Wall;
 import frame.GameFrame;
 import input.Button;
+import input.Input;
 import input.ToggleButton;
 import item.ItemSpawner;
 
@@ -137,6 +138,20 @@ public class MainClass {
         };
         gameList.add(winChecker);
 
+        Entity pauseUpdater = new Entity() {
+            public boolean lastPressed;
+            public boolean pressed;
+
+            public void tick(int delta) {
+                lastPressed = pressed;
+                pressed = Input.P || Input.ESCAPE;
+
+                if (!lastPressed && pressed)
+                    Entity.switchEntityList(2);
+            }
+        };
+        gameList.add(pauseUpdater);
+
         gameList.add(new ItemSpawner(1, 10));
 
         gameList.add(new Wall(-520, 380, 520, 360));
@@ -161,8 +176,24 @@ public class MainClass {
             public void draw(Graphics2D g) {
                 for (Entity e : MainClass.gameList)
                     e.draw(g);
+                g.setColor(new Color(0, 0, 0, 50));
+                g.fillRect(0, 0, MainClass.frame.getWidth(), MainClass.frame.getHeight());
             }
         };
+
+        Entity pauseUpdater = new Entity() {
+            boolean lastPressed = false;
+            boolean pressed = false;
+
+            public void tick(int delta) {
+                lastPressed = pressed;
+                pressed = Input.P || Input.ESCAPE;
+
+                if (!lastPressed && pressed)
+                    Entity.switchEntityList(1);
+            }
+        };
+        pauseList.add(pauseUpdater);
 
         pauseList.add(gameOverlayEntity);
         pauseList.add(menuButton);
