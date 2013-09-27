@@ -13,9 +13,7 @@
           <root url="jar://$MODULE_DIR$/../Game-Package/out/artifacts/Game_Package_jar/Game-Package.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../Game-Package/src" />
-        </SOURCES>
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

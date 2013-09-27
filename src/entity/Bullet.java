@@ -13,7 +13,7 @@ public class Bullet extends Entity {
     public double speed;    //Constant speed.  No FRICTION for bullets.
     Player parent;    //Sets parent player.  Will not interact with parent.
     boolean alive = true;
-    int explosionTimer = 200; //explosion will show for explosionTimer milliseconds
+    int explosionTimer = 500; //explosion will show for explosionTimer milliseconds
 
     static final float HOMING_FORCE = .005f;
 
@@ -36,9 +36,6 @@ public class Bullet extends Entity {
         speed = Math.sqrt(Math.pow(xVel, 2) + Math.pow(yVel, 2));    //changes speed variable for use in later calculations
     }
 
-    long lastDownscale = System.currentTimeMillis();
-    int downscaleDelay = 15;
-    long nextDownscale = System.currentTimeMillis() + downscaleDelay;
     boolean initialGrowth = false;
 
     public void draw(Graphics2D g) {
@@ -49,40 +46,34 @@ public class Bullet extends Entity {
             g.setColor(Color.black);
             Camera.drawCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
         } else {
-            if (!initialGrowth) {
-                radius *= 2.7;
-                initialGrowth = true;
-            }
-
-            boolean downscale = false;
-            if (System.currentTimeMillis() >= nextDownscale) {
-                downscale = true;
-                lastDownscale = System.currentTimeMillis();
-                nextDownscale = lastDownscale + downscaleDelay;
-            }
-
-            //draw explosion if dead
-            if (downscale)
-                radius *= .9;    //same as player explosion
-            g.setColor(Color.red);
-            Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
-            float radius2 = 2 / 3f * radius;    //scales next part of explosion down a bit
-            g.setColor(Color.orange);
-            Camera.fillCenteredOval(xPos, yPos, radius2 * 2, radius2 * 2, g);
-            float radius3 = 1 / 2f * radius2;    //scales next part of explosion down a bit
-            g.setColor(Color.yellow);
-            Camera.fillCenteredOval(xPos, yPos, radius3 * 2, radius3 * 2, g);
+            drawExplosion(g);
         }
     }
 
+    void drawExplosion(Graphics2D g) {
+        if (!initialGrowth) {
+            radius *= 2.7;
+            initialGrowth = true;
+        }
+
+        g.setColor(Color.red);
+        Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        double size2 = (double) 2 / 3 * radius;    //scales next part of explosion down a bit
+        g.setColor(Color.orange);
+        Camera.fillCenteredOval(xPos, yPos, (float) (size2 * 2), (float) (size2 * 2), g);
+        double size3 = (double) 1 / 2 * size2;    //scales next part of explosion down a bit
+        g.setColor(Color.yellow);
+        Camera.fillCenteredOval(xPos, yPos, (float) (size3 * 2), (float) (size3 * 2), g);
+    }
+
     public void tick(int delta) {
-        if (!alive)    //handles explosion
-        {
+        if (!alive) {    //if dead, do nothing
+            radius *= Math.pow(.995, delta);
             if (explosionTimer < 0)
-                removeFromList();    //remove if done exploding
+                removeFromList();    //remove when done exploding
             else
                 explosionTimer -= delta;    //count down to removal
-            return;
+            return; //nothing more happens if it's dead
         }
 
         gravitate(delta);

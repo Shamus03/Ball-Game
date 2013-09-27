@@ -127,20 +127,24 @@ public class Player extends Entity {
             g.setColor(Color.black);    //draw outer black ring
             Camera.drawCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
         } else {
-            if (!initialGrowth) {
-                radius *= 2.7;
-                initialGrowth = true;
-            }
-
-            g.setColor(Color.red);
-            Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
-            double size2 = (double) 2 / 3 * radius;    //scales next part of explosion down a bit
-            g.setColor(Color.orange);
-            Camera.fillCenteredOval(xPos, yPos, (float) (size2 * 2), (float) (size2 * 2), g);
-            double size3 = (double) 1 / 2 * size2;    //scales next part of explosion down a bit
-            g.setColor(Color.yellow);
-            Camera.fillCenteredOval(xPos, yPos, (float) (size3 * 2), (float) (size3 * 2), g);
+            drawExplosion(g);
         }
+    }
+
+    void drawExplosion(Graphics2D g) {
+        if (!initialGrowth) {
+            radius *= 2.7;
+            initialGrowth = true;
+        }
+
+        g.setColor(Color.red);
+        Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        double size2 = (double) 2 / 3 * radius;    //scales next part of explosion down a bit
+        g.setColor(Color.orange);
+        Camera.fillCenteredOval(xPos, yPos, (float) (size2 * 2), (float) (size2 * 2), g);
+        double size3 = (double) 1 / 2 * size2;    //scales next part of explosion down a bit
+        g.setColor(Color.yellow);
+        Camera.fillCenteredOval(xPos, yPos, (float) (size3 * 2), (float) (size3 * 2), g);
     }
 
     public void tick(int delta) {
@@ -171,7 +175,7 @@ public class Player extends Entity {
         if (right)
             direction -= turnSpeed * delta;
 
-        if (Input.P)
+        if (Input.P || Input.ESCAPE)
             Entity.switchEntityList(2);
 
         direction %= 2 * Math.PI;    //prevent over-rotating.  Comment this line out and the player's direction arcs won't draw properly
