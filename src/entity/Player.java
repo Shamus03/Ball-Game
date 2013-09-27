@@ -12,7 +12,7 @@ import java.util.Random;
 public class Player extends Entity {
     public final float FRICTION = .999f;    //deceleration of player each frame
     public final float RESTITUTION = .6f;    //bounciness from walls
-    public final int HEALTHMAX = 1;    //max (starting) health
+    public final int HEALTHMAX = 50;    //max (starting) health
     public float radius;    //radius of player
     public int controlScheme = 0;            //determines controls and color for player
     public float bulletSize;
