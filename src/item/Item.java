@@ -1,111 +1,104 @@
 package item;
+
+import camera.Camera;
+import entity.Entity;
 import entity.Player;
-import game.BallGame;
+import game.MainClass;
+import shape.Polygon2D;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 
-public class Item
-{
-	public double xPos;
-	public double yPos;
-	double speed;
-	double targxPos;
-	double targyPos;
+public class Item extends Entity {
+    float speed;
+    float targxPos;
+    float targyPos;
 
-	public double xVel;
-	public double yVel;
+    float startDistance;
 
-	int startDistance;
+    Color color;
 
-	Color color;
+    float radius;
 
-	int size;
+    public Item() {
+        speed = (float) (Math.random() + 1) / 15;
 
-	public Item()
-	{
-		speed = Math.random()+1;
+        color = Color.white;
 
-		color = Color.white;
+        radius = 10;
 
-		size = 10;
+        startDistance = Math.max(MainClass.frame.getWidth() + 10, MainClass.frame.getHeight() + 10) + radius;
+        double angle = Math.toRadians(Math.random() * 360);        //random starting location
+        xPos = (float) (startDistance * Math.cos(angle));
+        yPos = (float) (startDistance * Math.sin(angle));
 
-		startDistance = (int)((Math.max(BallGame.width+10,BallGame.height+10)+size)/1.5);
-		double angle = Math.toRadians(Math.random()*360);		//random starting location
-		xPos = (BallGame.width + 10)/2+startDistance*Math.cos(angle);
-		yPos = (BallGame.height + 10)/2+startDistance*Math.sin(angle);
+        targxPos = (int) (Math.random() * ((MainClass.frame.getWidth()) - radius * 2) + radius);    //random location
+        targyPos = (int) (Math.random() * ((MainClass.frame.getHeight()) - radius * 2) + radius);
 
-		targxPos = (int)(Math.random()*((BallGame.width-BallGame.leftBounds)-size*2)+size+BallGame.leftBounds);	//random location
-		targyPos = (int)(Math.random()*((BallGame.height-BallGame.topBounds)-size*2)+size+BallGame.topBounds);
+        double travelAngle = Math.atan2(targyPos - yPos, targxPos - xPos);
 
-		double travelAngle = Math.atan2(targyPos-yPos,targxPos-xPos);
+        xVel = (float) (speed * Math.cos(travelAngle));
+        yVel = (float) (speed * Math.sin(travelAngle));
+    }
 
-		xVel = speed*Math.cos(travelAngle);
-		yVel = speed*Math.sin(travelAngle);
-	}
+    public void supplyEffect(Player p) {
+        //Does nothing.  Extend this class to add effects.
+    }
 
-	public void supplyEffect(Player p)
-	{
-		//Does nothing.  Extend this class to add effects.
-	}
+    public void givePowerUp(Player p) {
+        supplyEffect(p);
+        removeFromList();
+    }
 
-	public void givePowerUp(Player p)
-	{
-		supplyEffect(p);
-		removeFromWorld();
-	}
+    public void move(int delta) {
+        if (isOutofView())
+            removeFromList();
 
-	public void removeFromWorld()	//remove from main list of bullets
-	{				
-		BallGame.items.remove(BallGame.items.indexOf(this));
-	}
+        xPos += xVel * delta;
+        yPos += yVel * delta;
+    }
 
-	public void move(int delta)
-	{
-		double deltaFrame = (double)delta/15;
-		
-		if(isOutofView())
-			removeFromWorld();
+    boolean isOutofView() {
+        if (xPos - radius > MainClass.frame.getWidth() / 2 + 10 && xVel > 0)
+            return true;
+        if (xPos + radius < -MainClass.frame.getWidth() / 2 - 10 && xVel < 0)
+            return true;
+        if (yPos - radius > MainClass.frame.getHeight() / 2 + 10 && yVel > 0)
+            return true;
+        if (yPos + radius < -MainClass.frame.getHeight() / 2 - 10 && yVel < 0)
+            return true;
+        return false;
+    }
 
-		xPos += xVel * deltaFrame;
-		yPos += yVel * deltaFrame;
-	}
+    public void draw(Graphics2D g) {
+        g.setColor(color);
+        Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        g.setColor(Color.black);
+        Camera.drawCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        drawEffect(g);
+    }
 
-	boolean isOutofView()
-	{
-		if(xPos - size > BallGame.width + 10 && xVel > 0)
-			return true;
-		if(xPos + size < -10 && xVel < 0)
-			return true;
-		if(yPos - size > BallGame.height + 10 && yVel > 0)
-			return true;
-		if(yPos + size < -10 && yVel < 0)
-			return true;
-		return false;
-	}
+    public void onCollide(Entity e) {
+        if (e instanceof Player)
+            onCollide((Player) e);
+    }
 
-	public void draw(Graphics g)
-	{
-		g.setColor(color);
-		g.fillOval((int)(xPos-size),(int)(yPos-size),size*2,size*2);
-		g.setColor(Color.black);
-		g.drawOval((int)(xPos-size),(int)(yPos-size),size*2,size*2);
-		drawEffect(g);
-	}
+    public void onCollide(Player p) {
+        givePowerUp(p);
+    }
 
-	public void drawEffect(Graphics g)
-	{
-		//Add effect to extended classes
-	}
+    public void drawEffect(Graphics2D g) {
+        //Add effect to extended classes
+    }
 
-	public boolean colliding(Player p)
-	{
-		if(distance(xPos,yPos,p.xPos,p.yPos) <= size+p.size )
-			return true;
-		return false;
-	}
-
-	//simple distance formula.  Shouldn't really be in here.
-	double distance(double x1, double y1, double x2, double y2){return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));}
+    public void updateBoundingBox() {
+        boundingBox = new Polygon2D();
+        int numPoints = 12;
+        for (int i = 0; i < numPoints; i++) {
+            double angle = i * Math.PI * 2 / numPoints;
+            float pointX = (float) (radius * Math.cos(angle) + xPos);
+            float pointY = (float) (radius * Math.sin(angle) + yPos);
+            boundingBox.addPoint(pointX, pointY);
+        }
+    }
 }

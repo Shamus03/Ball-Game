@@ -2,22 +2,18 @@ package powerup;
 
 import entity.Player;
 
-public class TripleShot extends Powerup
-{
-	public TripleShot(Player parent, int durationTime)
-	{
-		super(parent,durationTime);
-	}
-	
-	public void move(int delta)
-	{
-		parent.tripleShot = true;
-		if(System.currentTimeMillis() >= deathTime)
-			removeFromWorld();
-	}
-	
-	public void removeEffect()
-	{
-		parent.tripleShot = false;
-	}
+public class TripleShot extends Powerup {
+    public TripleShot(Player parent, int durationTime) {
+        super(parent, durationTime);
+    }
+
+    public void tick(int delta) {
+        parent.tripleShot = true;
+        if (System.currentTimeMillis() >= deathTime)
+            removeFromList();
+    }
+
+    public void removeEffect() {
+        parent.tripleShot = false;
+    }
 }

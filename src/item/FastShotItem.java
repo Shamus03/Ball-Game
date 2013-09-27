@@ -1,32 +1,29 @@
 package item;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
+import camera.Camera;
 import entity.Player;
+import powerup.FastShot;
 
-public class FastShotItem extends Item
-{
-	static final int durationSeconds = 3;
-	
-	static final double effectSize = .5;
-	
-	public FastShotItem()
-	{
-		super();
-		color = Color.orange;
-	}
-	
-	public void supplyEffect(Player p)
-	{
-		p.giveFastShot(durationSeconds);
-	}
-	
-	public void drawEffect(Graphics g)
-	{
-		g.setColor(Color.black);
-		
-		g.fillRect((int)(xPos-size*effectSize-1),(int)(yPos-size*effectSize/2),(int)(size*effectSize),(int)(size*effectSize));
-		g.fillRect((int)(xPos+2),(int)(yPos-size*effectSize/2),(int)(size*effectSize),(int)(size*effectSize));
-	}
+import java.awt.*;
+
+public class FastShotItem extends Item {
+    static final int DURATION_SECONDS = 3;
+
+    static final float EFFECT_SIZE = .5f;
+
+    public FastShotItem() {
+        super();
+        color = Color.orange;
+    }
+
+    public void supplyEffect(Player p) {
+        new FastShot(p, DURATION_SECONDS).addToList();
+    }
+
+    public void drawEffect(Graphics2D g) {
+        g.setColor(Color.black);
+
+        Camera.fillRect(xPos - radius * EFFECT_SIZE - 1, yPos + radius * EFFECT_SIZE / 2, radius * EFFECT_SIZE, radius * EFFECT_SIZE, g);
+        Camera.fillRect(xPos + 2, yPos + radius * EFFECT_SIZE / 2, radius * EFFECT_SIZE, radius * EFFECT_SIZE, g);
+    }
 }

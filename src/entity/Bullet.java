@@ -1,257 +1,203 @@
 package entity;
-import game.BallGame;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
+import camera.Camera;
 import powerup.Orbital;
-import powerup.Powerup;
+import shape.Polygon2D;
 
-public class Bullet
-{
-	private Color color;
-	public double size;	//radius of bullet
-	public double xPos;
-	public double yPos;
-	public double xVel;
-	public double yVel;
-	public double speed;	//Constant speed.  No friction for bullets.
-	Player parent;	//Sets parent player.  Will not interact with parent.
-	boolean alive = true;
-	int explosionTimer = 20; //explosion will show for explosionTimer frames
+import java.awt.*;
 
-	static final double homingForce = 3;
+public class Bullet extends Entity {
+    private Color color;
+    public float radius;    //radius of bullet
 
-	public int bounces = 2;	//How many times it will bounce before going away
+    public double speed;    //Constant speed.  No FRICTION for bullets.
+    Player parent;    //Sets parent player.  Will not interact with parent.
+    boolean alive = true;
+    int explosionTimer = 500; //explosion will show for explosionTimer milliseconds
 
-	public Bullet(Player p, double si, double sp)
-	{				
-		parent = p;
-		size = si;
-		speed = sp;
+    static final float HOMING_FORCE = .005f;
 
-		color = parent.color;
+    public int bounces = 2;    //How many times it will bounce before going away
+    public float size;
 
-		xPos = parent.xPos + parent.size*Math.cos(parent.direction);	//sets position to just in front of parent player
-		yPos = parent.yPos + parent.size*Math.sin(parent.direction);
+    public Bullet(Player p, float si, float sp) {
+        parent = p;
+        radius = si;
+        speed = sp;
 
-		xVel = speed * Math.cos(parent.direction) + parent.xVel;	//sets velocities relative to player
-		yVel = speed * Math.sin(parent.direction) + parent.yVel;
+        color = parent.color;
 
-		speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));	//changes speed variable for use in later calculations
-	}
+        xPos = (float) (parent.xPos + parent.radius * Math.cos(parent.direction));    //sets position to just in front of parent player
+        yPos = (float) (parent.yPos + parent.radius * Math.sin(parent.direction));
 
-	long lastDownscale = System.currentTimeMillis();
-	int downscaleDelay = 15;
-	long nextDownscale = System.currentTimeMillis() + downscaleDelay;
-	boolean initialGrowth = false;
-	public void draw(Graphics g)
-	{
-		if(alive)
-		{
-			//draw bullet if alive
-			g.setColor(color);
-			g.fillOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2));
-			g.setColor(Color.black);
-			g.drawOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2));
-		}
-		else
-		{
-			if(!initialGrowth)
-			{
-				size *= 2.7;
-				initialGrowth = true;
-			}
-			
-			boolean downscale = false;
-			if(System.currentTimeMillis() >= nextDownscale)
-			{
-				downscale = true;
-				lastDownscale = System.currentTimeMillis();
-				nextDownscale = lastDownscale + downscaleDelay;
-			}
-			
-			//draw explosion if dead
-			if(downscale)
-				size *= .9;	//same as player explosion
-			g.setColor(Color.red);
-			g.fillOval((int)(xPos-size), (int)(yPos-size),(int)(size*2),(int)(size*2));
-			double size2 = (double)2/3*size;	//scales next part of explosion down a bit
-			g.setColor(Color.orange);
-			g.fillOval((int)(xPos-size2), (int)(yPos-size2),(int)(size2*2),(int)(size2*2));
-			double size3 = (double)1/2*size2;	//scales next part of explosion down a bit
-			g.setColor(Color.yellow);
-			g.fillOval((int)(xPos-size3), (int)(yPos-size3),(int)(size3*2),(int)(size3*2));
-		}
-	}
+        xVel = (float) (speed * Math.cos(parent.direction) + parent.xVel);    //sets velocities relative to player
+        yVel = (float) (speed * Math.sin(parent.direction) + parent.yVel);
 
-	public void move(int del)
-	{		
-		double delta = (double)del/15;
-		if(!alive)	//handles explosion
-		{
-			if(explosionTimer < 0)
-				removeFromWorld();	//remove if done exploding
-			else
-				explosionTimer--;	//count down to removal
-			return;
-		}
+        speed = Math.sqrt(Math.pow(xVel, 2) + Math.pow(yVel, 2));    //changes speed variable for use in later calculations
+    }
 
-		gravitateToPlayers(delta);
-		gravitateToBullets(delta);
+    boolean initialGrowth = false;
 
-		xPos+=xVel*delta;	//apply movement
-		yPos+=yVel*delta;
+    public void draw(Graphics2D g) {
+        if (alive) {
+            //draw bullet if alive
+            g.setColor(color);
+            Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+            g.setColor(Color.black);
+            Camera.drawCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        } else {
+            drawExplosion(g);
+        }
+    }
 
-		for(int i = 0; i < BallGame.players.size(); i++)	//checks for collisions with players
-		{
-			Player targ = BallGame.players.get(i);
-			if(targ != parent)	//make sure to not hit its parent
-				if(colliding(targ) && targ.alive)	//If they're colliding and the player is alive, hit it and die.
-				{
-					hit(targ);
-					alive = false;
-				}
-		}
+    void drawExplosion(Graphics2D g) {
+        if (!initialGrowth) {
+            radius *= 2.7;
+            initialGrowth = true;
+        }
 
-		for(int i = 0; i < BallGame.bullets.size(); i++)	//checks for collisions with other bullets
-		{
-			Bullet targ = BallGame.bullets.get(i);
-			if(targ != this)	//make sure to not hit itself
-				if(colliding(targ) && targ.alive)	//If they're colliding and the other bullet is alive kill both of them.
-					alive = targ.alive = false;
-		}
-		
-		for(int i = 0; i < BallGame.powerups.size(); i++)	//checks for collisions with orbitals
-		{
-			Powerup other = BallGame.powerups.get(i);
-			if(other instanceof Orbital)
-			{
-				Orbital targ = (Orbital)BallGame.powerups.get(i);
-				if(targ.parent != this.parent)	//make sure to not hit its compadre
-					if(targ.colliding(this))	//If they're colliding kill itself
-					{
-						targ.health--;
-						alive = false;
-					}
-			}
-		}
+        g.setColor(Color.red);
+        Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        double size2 = (double) 2 / 3 * radius;    //scales next part of explosion down a bit
+        g.setColor(Color.orange);
+        Camera.fillCenteredOval(xPos, yPos, (float) (size2 * 2), (float) (size2 * 2), g);
+        double size3 = (double) 1 / 2 * size2;    //scales next part of explosion down a bit
+        g.setColor(Color.yellow);
+        Camera.fillCenteredOval(xPos, yPos, (float) (size3 * 2), (float) (size3 * 2), g);
+    }
 
-		wallClip();	//bounce off walls
-	}
+    public void tick(int delta) {
+        if (!alive) {    //if dead, do nothing
+            radius *= Math.pow(.995, delta);
+            if (explosionTimer < 0)
+                removeFromList();    //remove when done exploding
+            else
+                explosionTimer -= delta;    //count down to removal
+            return; //nothing more happens if it's dead
+        }
 
-	public void gravitateToPlayers(double delta)
-	{		
-		for(int i = 0; i < BallGame.players.size(); i++)
-		{
-			Player p = BallGame.players.get(i);
-			if(p != parent)
-			{
-				double angle = Math.atan2(p.yPos-yPos,p.xPos-xPos);
-				double force = homingForce*Math.pow(Math.PI,2)*Math.pow(size,2)*Math.pow(p.size,2)/Math.pow(distance(xPos,yPos,p.xPos,p.yPos),2);
-				double mass = Math.PI*Math.pow(size,2);
-				double pmass =  Math.PI*Math.pow(p.size,2);
+        gravitate(delta);
 
-				xVel += (force*Math.cos(angle)/mass)*delta;
-				yVel += (force*Math.sin(angle)/mass)*delta;
-				speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
+        xPos += xVel * delta;    //apply movement
+        yPos += yVel * delta;
 
-				p.xVel -= (force*Math.cos(angle)/pmass)*delta;
-				p.yVel -= (force*Math.sin(angle)/pmass)*delta;
-			}
-		}
-	}
+        updateBoundingBox();
+    }
 
-	public void gravitateToBullets(double delta)
-	{
-		for(int i = 0; i < BallGame.bullets.size(); i++)
-		{
-			Bullet b = BallGame.bullets.get(i);
-			if(b != this)
-			{
-				double angle = Math.atan2(b.yPos-yPos,b.xPos-xPos);
-				double force = homingForce*Math.pow(Math.PI,2)*Math.pow(size,2)*Math.pow(b.size,2)/Math.pow(distance(xPos,yPos,b.xPos,b.yPos),2);
-				double mass = Math.PI*size*size;
+    public void updateBoundingBox() {
+        boundingBox = new Polygon2D();
+        int numPoints = 12;
+        for (int i = 0; i < numPoints; i++) {
+            double angle = i * Math.PI * 2 / numPoints;
+            float pointX = (float) (radius * Math.cos(angle) + xPos);
+            float pointY = (float) (radius * Math.sin(angle) + yPos);
+            boundingBox.addPoint(pointX, pointY);
+        }
+    }
 
-				xVel += (force*Math.cos(angle)/mass)*delta;
-				yVel += (force*Math.sin(angle)/mass)*delta;
-				speed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-			}
-		}
-	}
+    public void onCollide(Entity other) {
+        if (alive)
+            if (other instanceof Bullet)
+                onCollide((Bullet) other);
+            else if (other instanceof Orbital)
+                onCollide((Orbital) other);
+            else if (other instanceof Player)
+                onCollide((Player) other);
+            else if (other instanceof Wall)
+                onCollide((Wall) other);
+    }
 
-	public boolean colliding(Player other)	//check if colliding with a specific player
-	{
-		if(parent.distance(xPos,yPos,other.xPos,other.yPos) <= size + other.size)
-			return true;
-		return false;
-	}
+    public void onCollide(Bullet other) {
+        if (other.alive)
+            alive = other.alive = false;
+    }
 
-	public boolean colliding(Bullet other)	//check if colliding with a specific bullet
-	{
-		if(parent.distance(xPos,yPos,other.xPos,other.yPos) <= size + other.size)
-			return true;
-		return false;
-	}
+    public void onCollide(Orbital other) {
+        if (other.parent != this.parent) {    //make sure to not hit its compadre
+            other.health--;
+            alive = false;
+        }
+    }
 
-	public void hit(Player targ)	//bullet hits player
-	{
-		if(!targ.shielded)
-		{
-			parent.hits++;	//add a hit to its parent
-			targ.health--;	//lower victim's health
-		}
+    public void onCollide(Player other) {
+        if (other.alive && other != parent) {
+            hit(other);
+            alive = false;
+        }
+    }
 
-		double direction = Math.atan2(targ.yPos-yPos, targ.xPos-xPos);	//get collision angle
+    public void onCollide(Wall other) {
+        double collideAngle = Math.atan2(yPos - other.yPos, xPos - other.xPos);
 
-		targ.xVel += speed*Math.cos(direction)*(Math.pow(size,2)/Math.pow(targ.size,2));	//apply force to player for knockback
-		targ.yVel += speed*Math.sin(direction)*(Math.pow(size,2)/Math.pow(targ.size,2));
-	}
+        if (collideAngle >= other.ULangle) {
+            xVel = -Math.abs(xVel);
+            xPos = other.xMin - radius;
+        } else if (collideAngle >= other.URangle) {
+            yVel = Math.abs(yVel);
+            yPos = other.yMax + radius;
+        } else if (collideAngle >= other.LRangle) {
+            xVel = Math.abs(xVel);
+            xPos = other.xMax + radius;
+        } else if (collideAngle >= other.LLangle) {
+            yVel = -Math.abs(yVel);
+            yPos = other.yMin - radius;
+        } else {
+            xVel = -Math.abs(xVel);
+            xPos = other.xMin - radius;
+        }
+        bounces--;
+        if (bounces < 0)
+            alive = false;
+    }
 
-	public void removeFromWorld()	//remove from main list of bullets
-	{
-		BallGame.bullets.remove(BallGame.bullets.indexOf(this));
-	}
+    public void gravitate(int delta) {
+        for (Entity e : Entity.entities) {
+            if (e instanceof Player)
+                if (e != parent) {
+                    Player p = (Player) e;
+                    double angle = Math.atan2(p.yPos - yPos, p.xPos - xPos);
+                    double force = HOMING_FORCE * Math.pow(Math.PI, 2) * Math.pow(radius, 2) * Math.pow(p.radius, 2) / Math.pow(distance(xPos, yPos, p.xPos, p.yPos), 2);
+                    double mass = Math.PI * Math.pow(radius, 2);
+                    double pmass = Math.PI * Math.pow(p.radius, 2);
 
-	public void wallClip()
-	{
-		//Bounce off walls.  Subtract from remaining bounces.
-		if(xPos >= BallGame.width - size)
-		{
-			bounces--;
-			xPos = BallGame.width - size;
-			if(xVel > 0)
-				xVel *= -1;
-		}
-		if(xPos <= size + BallGame.leftBounds)
-		{
-			bounces--;
-			xPos = size +BallGame.leftBounds;
-			if(xVel < 0)
-				xVel *= -1;
-		}
-		if(yPos >= BallGame.height - size)
-		{
-			bounces--;
-			yPos = BallGame.height - size;
-			if(yVel > 0)
-				yVel *= -1;
-		}
-		if(yPos <= size + BallGame.topBounds)
-		{
-			bounces--;
-			yPos = size + BallGame.topBounds;
-			if(yVel < 0)
-				yVel *= -1;
-		}
+                    xVel += (force * Math.cos(angle) / mass) * delta;
+                    yVel += (force * Math.sin(angle) / mass) * delta;
+                    speed = Math.sqrt(Math.pow(xVel, 2) + Math.pow(yVel, 2));
 
-		for(int i = 0; i < BallGame.walls.size(); i++)
-			BallGame.walls.get(i).collide(this);
+                    p.xVel -= (force * Math.cos(angle) / pmass) * delta;
+                    p.yVel -= (force * Math.sin(angle) / pmass) * delta;
+                }
+            if (e instanceof Bullet)
+                if (e != this) {
+                    Bullet b = (Bullet) e;
+                    if (b.parent != this.parent) {
+                        double angle = Math.atan2(b.yPos - yPos, b.xPos - xPos);
+                        double force = HOMING_FORCE * Math.pow(Math.PI, 2) * Math.pow(radius, 2) * Math.pow(b.radius, 2) / Math.pow(distance(xPos, yPos, b.xPos, b.yPos), 2);
+                        double mass = Math.PI * radius * radius;
 
-		if(bounces < 0)		//checks bounces to remove
-			alive = false;
-	}
+                        xVel += (force * Math.cos(angle) / mass) * delta;
+                        yVel += (force * Math.sin(angle) / mass) * delta;
+                        speed = Math.sqrt(Math.pow(xVel, 2) + Math.pow(yVel, 2));
+                    }
+                }
+        }
+    }
 
-	//simple distance formula.  Shouldn't really be in here.
-	double distance(double x1, double y1, double x2, double y2){return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));}
+    public void hit(Player targ)    //bullet hits player
+    {
+        if (!targ.shielded) {
+            parent.hits++;    //add a hit to its parent
+            targ.health--;    //lower victim's health
+        }
+
+        double direction = Math.atan2(targ.yPos - yPos, targ.xPos - xPos);    //get collision angle
+
+        targ.xVel += speed * Math.cos(direction) * (Math.pow(radius, 2) / Math.pow(targ.radius, 2));    //apply force to player for knockback
+        targ.yVel += speed * Math.sin(direction) * (Math.pow(radius, 2) / Math.pow(targ.radius, 2));
+    }
+
+    //simple distance formula.  Shouldn't really be in here.
+    double distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 }

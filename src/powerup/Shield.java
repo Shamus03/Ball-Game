@@ -1,48 +1,40 @@
 package powerup;
+
+import camera.Camera;
 import entity.Player;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 
-public class Shield extends Powerup
-{
-	int depth;
-	int radius;
+public class Shield extends Powerup {
+    int depth;
+    int radius;
 
-	public Shield(Player p, int durationSeconds)
-	{
-		super(p,durationSeconds);
-		
-		parent = p;
+    public Shield(Player p, int durationSeconds) {
+        super(p, durationSeconds);
 
-		birthTime = System.currentTimeMillis();
-		deathTime = birthTime + durationSeconds*1000;
+        parent = p;
 
-		radius = 12;
-		depth = 5;
+        birthTime = System.currentTimeMillis();
+        deathTime = birthTime + durationSeconds * 1000;
 
-		parent.shielded = true;
-	}
+        radius = 12;
+        depth = 5;
 
-	public void draw(Graphics g)
-	{	
-		parent.shielded = true;
-		if(parent.shieldDrawn)		//don't draw more than one shield
-			return;
-		
-		g.setColor(new Color(0,255,255,100));
-		fillCenteredCircle(parent.xPos,parent.yPos,parent.size+radius,g);
-		parent.shieldDrawn = true;
-	}
-	
-	public void removeEffect()
-	{
-		parent.shielded = false;
-	}
+        parent.shielded = true;
+    }
 
-	void fillCenteredCircle(double cx, double cy, double radius, Graphics g)
-	{
-		g.fillOval((int)(cx-radius), (int)(cy-radius), (int)(radius*2), (int)(radius*2));
-	}
+    public void draw(Graphics2D g) {
+        parent.shielded = true;
+        if (parent.shieldDrawn)        //don't draw more than one shield
+            return;
+
+        g.setColor(new Color(0, 255, 255, 100));
+        Camera.fillCenteredOval(parent.getxPos(), parent.getyPos(), parent.radius * 2 + radius * 2, parent.radius * 2 + radius * 2, g);
+        parent.shieldDrawn = true;
+    }
+
+    public void removeEffect() {
+        parent.shielded = false;
+    }
 }

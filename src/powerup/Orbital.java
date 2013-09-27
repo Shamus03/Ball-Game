@@ -1,244 +1,215 @@
 package powerup;
 
+import camera.Camera;
 import entity.Bullet;
+import entity.Entity;
 import entity.Player;
-import game.BallGame;
-
+import entity.Wall;
 import item.OrbitalItem;
+import shape.Polygon2D;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
-public class Orbital extends Powerup
-{	
-	public static final double restitution = .5;
-	static final double attractForce = .7;
-	
-	static final double friction = .99;
-	
-	public double xPos;
-	public double yPos;
-	public double xVel;
-	public double yVel;
-	
-	public double size;
-	
-	public boolean alive = true;
-	
-	public int health = 10;
-	
-	Color color;
-	
-	public Orbital(Player parent, int durationSeconds, OrbitalItem item)
-	{
-		super(parent, durationSeconds);
-		
-		xPos = item.xPos;
-		yPos = item.yPos;
-		
-		xVel = item.xVel;
-		yVel = item.yVel;
-		
-		size = 10;
-		
-		color = Color.gray;
-	}
-	
-	public void draw(Graphics g)
-	{
-		if(!colliding(parent))
-		{
-			double angle = Math.atan2(yPos-parent.yPos,xPos-parent.xPos);
-			int endX = (int)(parent.xPos + parent.size*Math.cos(angle));
-			int endY = (int)(parent.yPos + parent.size*Math.sin(angle));
+public class Orbital extends Powerup {
+    public static final float RESTITUTION = .5f;
+    static final float ATTRACT_FORCE = .01f;
 
-			g.setColor(Color.black);
-			g.drawLine((int)xPos,(int)yPos,endX,endY);
-		}
-		
-		g.setColor(color);
-		g.fillOval((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2));
-		g.setColor(Color.black);
-		g.drawOval((int)(xPos-size),(int)(yPos-size),(int)(size*2),(int)(size*2));
-	}
-	
-	public void move(int delta)
-	{
-		super.move(delta);
-		
-		springToPlayer(delta);
-		collideWithPlayers();
-		
-		xVel *= friction;
-		yVel *= friction;
-		
-		xPos+=xVel;
-		yPos+=yVel;
-		
-		wallClip();
-	}
-	
-	public void springToPlayer(int delta)
-	{
-		double deltaFrame = (double)delta/15;
-		
-		double angle = Math.atan2(parent.yPos-yPos,parent.xPos-xPos);
-		
-		double distance = distance(xPos,yPos,parent.xPos,parent.yPos) - (parent.size*1.5);
-		if(distance < 0)
-			distance = 0;
-		
-		double force = attractForce*Math.pow(distance,1.1);
-		double accel = force/(Math.PI*Math.pow(size,2));
-		
-		xVel += accel*Math.cos(angle)*deltaFrame;
-		yVel += accel*Math.sin(angle)*deltaFrame;
-	}
-	
-	public void wallClip()	//bounce off walls
-	{
-		//check if out of bounds; move back in; apply restitution and bounce.
-		if(xPos >= BallGame.width - size)
-		{
-			xPos = BallGame.width - size;
-			if(xVel > 0)
-				xVel *= -restitution;
-		}
-		if(xPos <= size + BallGame.leftBounds)
-		{
-			xPos = size +BallGame.leftBounds;
-			if(xVel < 0)
-				xVel *= -restitution;
-		}
-		if(yPos >= BallGame.height - size)
-		{
-			yPos = BallGame.height - size;
-			if(yVel > 0)
-				yVel *= -restitution;
-		}
-		if(yPos <= size + BallGame.topBounds)
-		{
-			yPos = size + BallGame.topBounds;
-			if(yVel < 0)
-				yVel *= -restitution;
-		}
+    static final float FRICTION = .999f;
 
-		for(int i = 0; i < BallGame.walls.size(); i++)	//bounce off wall objects
-			BallGame.walls.get(i).collide(this);
-	}
-	
-	public void collideWithPlayers()
-	{
-		for(int i = 0; i < BallGame.players.size(); i++)
-		{
-			Player p = BallGame.players.get(i);
-			if(p != parent)
-			{
-				if(colliding(p))
-				{
-					hit(p);
-					collideBounce(p);
-				}
-			}
-		}
-	}
-	
-	long lastHit = System.currentTimeMillis();
-	int hitDelay = 20;
-	long nextHit = System.currentTimeMillis() + hitDelay;
-	public void hit(Player p)
-	{		
-		if(System.currentTimeMillis() >= nextHit)
-		{
-			lastHit = System.currentTimeMillis();
-			nextHit = lastHit + hitDelay;
-			
-			Bullet b = new Bullet(parent, parent.bulletSize, 0);
-			double angle = Math.atan2(yPos-p.yPos,xPos-p.xPos);
-			b.xVel = b.yVel = 0;
-			b.bounces = 0;
-			b.xPos = p.xPos + p.size*Math.cos(angle);
-			b.yPos = p.yPos + p.size*Math.sin(angle);
-			BallGame.bullets.add(b);
+    public float radius;
 
-			health--;
-			if(health <= 0)
-				removeFromWorld();
-		}
-	}
-	
-	public boolean colliding(Player other)
-	{
+    public boolean alive = true;
 
-		if(distance(xPos,yPos,other.xPos,other.yPos) < size + other.size)
-			return true;
-		return false;
-	}
-	
-	public boolean colliding(Bullet other)
-	{
+    public int health = 10;
 
-		if(distance(xPos,yPos,other.xPos,other.yPos) < size + other.size)
-			return true;
-		return false;
-	}
-	
-	public boolean colliding(Orbital other)
-	{
+    Color color;
 
-		if(distance(xPos,yPos,other.xPos,other.yPos) < size + other.size)
-			return true;
-		return false;
-	}
-	
-	public void collideBounce(Player other)
-	{		
-		double thisAngle = Math.atan2(yPos-other.yPos,xPos-other.xPos);
-		double targAngle = Math.atan2(other.yPos-yPos,other.xPos-xPos);
+    public Orbital(Player parent, int durationSeconds, OrbitalItem item) {
+        super(parent, durationSeconds);
 
-		double inside = Math.abs(distance(xPos,yPos,other.xPos,other.yPos)-size-other.size);
+        if (item != null) {
+            xPos = item.getxPos();
+            yPos = item.getyPos();
 
-		xPos += (inside/2)*Math.cos(thisAngle);
-		yPos += (inside/2)*Math.sin(thisAngle);
-		other.xPos += (inside/2)*Math.cos(targAngle);
-		other.yPos += (inside/2)*Math.sin(targAngle);
+            xVel = item.getxVel();
+            yVel = item.getyVel();
+        } else {
+            xPos = parent.getxPos();
+            yPos = parent.getyPos();
+        }
 
-		double thisSpeed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-		double targSpeed = Math.sqrt(Math.pow(other.xVel,2)+Math.pow(other.yVel,2));
 
-		double massRatio = Math.pow(other.size/(size*2),2);
+        radius = 10;
 
-		xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
-		yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);
+        color = Color.gray;
 
-		other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(restitution,2);
-		other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(restitution,2);
-	}
-	
-	public void collideBounce(Orbital other)
-	{		
-		double thisAngle = Math.atan2(yPos-other.yPos,xPos-other.xPos);
-		double targAngle = Math.atan2(other.yPos-yPos,other.xPos-xPos);
+        updateBoundingBox();
+    }
 
-		double inside = Math.abs(distance(xPos,yPos,other.xPos,other.yPos)-size-other.size);
+    public void draw(Graphics2D g) {
+        if (!colliding(parent)) {
+            double angle = Math.atan2(yPos - parent.getyPos(), xPos - parent.getxPos());
+            float endX = (float) (parent.getxPos() + parent.radius * Math.cos(angle));
+            float endY = (float) (parent.getyPos() + parent.radius * Math.sin(angle));
+            float startX = (float) (xPos - radius * Math.cos(angle));
+            float startY = (float) (yPos - radius * Math.sin(angle));
 
-		xPos += (inside/2)*Math.cos(thisAngle);
-		yPos += (inside/2)*Math.sin(thisAngle);
-		other.xPos += (inside/2)*Math.cos(targAngle);
-		other.yPos += (inside/2)*Math.sin(targAngle);
+            g.setColor(Color.black);
+            Camera.drawLine(startX, startY, endX, endY, g);
+        }
 
-		double thisSpeed = Math.sqrt(Math.pow(xVel,2)+Math.pow(yVel,2));
-		double targSpeed = Math.sqrt(Math.pow(other.xVel,2)+Math.pow(other.yVel,2));
+        g.setColor(color);
+        Camera.fillCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+        g.setColor(Color.black);
+        Camera.drawCenteredOval(xPos, yPos, radius * 2, radius * 2, g);
+    }
 
-		double massRatio = Math.pow(other.size/(size*2),2);
+    public void tick(int delta) {
+        super.tick(delta);
 
-		xVel += massRatio*targSpeed*Math.cos(thisAngle)*Math.pow(restitution,2);
-		yVel += massRatio*targSpeed*Math.sin(thisAngle)*Math.pow(restitution,2);
+        springToPlayer(delta);
 
-		other.xVel += (1/massRatio)*thisSpeed*Math.cos(targAngle)*Math.pow(restitution,2);
-		other.yVel += (1/massRatio)*thisSpeed*Math.sin(targAngle)*Math.pow(restitution,2);
-	}
-	
-	//simple distance formula.  Shouldn't really be in here.
-	public double distance(double x1, double y1, double x2, double y2){return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));}
+        xVel *= Math.pow(FRICTION, delta);
+        yVel *= Math.pow(FRICTION, delta);
+
+        xPos += xVel * delta;
+        yPos += yVel * delta;
+
+        updateBoundingBox();
+    }
+
+    public void updateBoundingBox() {
+        boundingBox = new Polygon2D();
+        int numPoints = 12;
+        for (int i = 0; i < numPoints; i++) {
+            double angle = i * Math.PI * 2 / numPoints;
+            float pointX = (float) (radius * Math.cos(angle) + xPos);
+            float pointY = (float) (radius * Math.sin(angle) + yPos);
+            boundingBox.addPoint(pointX, pointY);
+        }
+    }
+
+    public void springToPlayer(int delta) {
+        double angle = Math.atan2(parent.getyPos() - yPos, parent.getxPos() - xPos);
+
+        double distance = distance(xPos, yPos, parent.getxPos(), parent.getyPos()) - (parent.radius * 1.5);
+        if (distance < 0)
+            distance = 0;
+
+        double force = ATTRACT_FORCE * Math.pow(distance, 1.1);
+        double accel = force / (Math.PI * Math.pow(radius, 2));
+
+        xVel += accel * Math.cos(angle) * delta;
+        yVel += accel * Math.sin(angle) * delta;
+    }
+
+    long lastHit = System.currentTimeMillis();
+    int hitDelay = 20;
+    long nextHit = System.currentTimeMillis() + hitDelay;
+
+    public void hit(Player p) {
+        if (System.currentTimeMillis() >= nextHit) {
+            lastHit = System.currentTimeMillis();
+            nextHit = lastHit + hitDelay;
+
+            Bullet b = new Bullet(parent, parent.bulletSize, 0);
+            double angle = Math.atan2(yPos - p.getyPos(), xPos - p.getxPos());
+            b.setxVel(0);
+            b.setyVel(0);
+            b.bounces = 0;
+            b.setxPos((float) (p.getxPos() + p.radius * Math.cos(angle)));
+            b.setyPos((float) (p.getyPos() + p.radius * Math.sin(angle)));
+            b.addToList();
+
+            health--;
+            if (health <= 0)
+                removeFromList();
+        }
+    }
+
+    public void onCollide(Entity other) {
+        if (other instanceof Player)
+            onCollide((Player) other);
+        if (other instanceof Orbital)
+            onCollide((Orbital) other);
+        if (other instanceof Wall)
+            onCollide((Wall) other);
+    }
+
+    public void onCollide(Player other) {
+        if (other == parent)
+            return;
+
+        double thisAngle = Math.atan2(yPos - other.getyPos(), xPos - other.getxPos());
+        double targAngle = Math.atan2(other.getyPos() - yPos, other.getxPos() - xPos);
+
+        float inside = (float) Math.abs(distance(xPos, yPos, other.getxPos(), other.getyPos()) - radius - other.radius);
+
+        xPos += (inside / 2) * Math.cos(thisAngle);
+        yPos += (inside / 2) * Math.sin(thisAngle);
+        other.setxPos((float) ((inside / 2) * Math.cos(targAngle)) + other.getxPos());
+        other.setyPos((float) ((inside / 2) * Math.sin(targAngle)) + other.getyPos());
+
+        float thisSpeed = (float) Math.sqrt(Math.pow(xVel, 2) + Math.pow(yVel, 2));
+        float targSpeed = (float) Math.sqrt(Math.pow(other.getxVel(), 2) + Math.pow(other.getyVel(), 2));
+
+        double massRatio = Math.pow(other.radius / radius, 2);
+
+        xVel += massRatio * targSpeed * Math.cos(thisAngle) * Math.pow(RESTITUTION, 2);
+        yVel += massRatio * targSpeed * Math.sin(thisAngle) * Math.pow(RESTITUTION, 2);
+
+        other.setxVel((float) ((1 / massRatio) * thisSpeed * Math.cos(targAngle) * Math.pow(RESTITUTION, 2)) + other.getxVel());
+        other.setyVel((float) ((1 / massRatio) * thisSpeed * Math.sin(targAngle) * Math.pow(RESTITUTION, 2)) + other.getyVel());
+
+        hit(other);
+    }
+
+    public void onCollide(Wall other) {
+        double collideAngle = Math.atan2(yPos - other.getyPos(), xPos - other.getxPos());
+
+        if (collideAngle >= other.ULangle) {
+            xVel = -Math.abs(xVel * RESTITUTION);
+            xPos = other.xMin - radius;
+        } else if (collideAngle >= other.URangle) {
+            yVel = Math.abs(yVel * RESTITUTION);
+            yPos = other.yMax + radius;
+        } else if (collideAngle >= other.LRangle) {
+            xVel = Math.abs(xVel * RESTITUTION);
+            xPos = other.xMax + radius;
+        } else if (collideAngle >= other.LLangle) {
+            yVel = -Math.abs(yVel * RESTITUTION);
+            yPos = other.yMin - radius;
+        } else {
+            xVel = -Math.abs(xVel * RESTITUTION);
+            xPos = other.xMin - radius;
+        }
+    }
+
+    public void onCollide(Orbital other) {
+        double thisAngle = Math.atan2(yPos - other.yPos, xPos - other.xPos);
+        double targAngle = Math.atan2(other.yPos - yPos, other.xPos - xPos);
+
+        double inside = Math.abs(distance(xPos, yPos, other.xPos, other.yPos) - radius - other.radius);
+
+        xPos += (inside / 2) * Math.cos(thisAngle);
+        yPos += (inside / 2) * Math.sin(thisAngle);
+        other.xPos += (inside / 2) * Math.cos(targAngle);
+        other.yPos += (inside / 2) * Math.sin(targAngle);
+
+        double thisSpeed = Math.sqrt(Math.pow(xVel, 2) + Math.pow(yVel, 2));
+        double targSpeed = Math.sqrt(Math.pow(other.xVel, 2) + Math.pow(other.yVel, 2));
+
+        double massRatio = Math.pow(other.radius / (radius * 2), 2);
+
+        xVel += massRatio * targSpeed * Math.cos(thisAngle) * Math.pow(RESTITUTION, 2);
+        yVel += massRatio * targSpeed * Math.sin(thisAngle) * Math.pow(RESTITUTION, 2);
+
+        other.xVel += (1 / massRatio) * thisSpeed * Math.cos(targAngle) * Math.pow(RESTITUTION, 2);
+        other.yVel += (1 / massRatio) * thisSpeed * Math.sin(targAngle) * Math.pow(RESTITUTION, 2);
+    }
+
+    //simple distance formula.  Shouldn't really be in here.
+    public double distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 }
