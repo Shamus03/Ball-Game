@@ -3,7 +3,6 @@ package item;
 import camera.Camera;
 import entity.Entity;
 import entity.Player;
-import game.BallGameStatic;
 import game.MainClass;
 import shape.Polygon2D;
 
@@ -33,8 +32,8 @@ public class Item extends Entity {
         xPos = (float) (startDistance * Math.cos(angle));
         yPos = (float) (startDistance * Math.sin(angle));
 
-        targxPos = (int) (Math.random() * ((MainClass.frame.getWidth() - BallGameStatic.leftBounds) - radius * 2) + radius + BallGameStatic.leftBounds);    //random location
-        targyPos = (int) (Math.random() * ((MainClass.frame.getHeight() - BallGameStatic.topBounds) - radius * 2) + radius + BallGameStatic.topBounds);
+        targxPos = (int) (Math.random() * ((MainClass.frame.getWidth()) - radius * 2) + radius);    //random location
+        targyPos = (int) (Math.random() * ((MainClass.frame.getHeight()) - radius * 2) + radius);
 
         double travelAngle = Math.atan2(targyPos - yPos, targxPos - xPos);
 
