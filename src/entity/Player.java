@@ -1,6 +1,7 @@
 package entity;
 
 import camera.Camera;
+import game.MainClass;
 import input.Input;
 import shape.Polygon2D;
 
@@ -11,7 +12,7 @@ import java.util.Random;
 public class Player extends Entity {
     public final float FRICTION = .999f;    //deceleration of player each frame
     public final float RESTITUTION = .6f;    //bounciness from walls
-    public final int HEALTHMAX = 50;    //max (starting) health
+    public final int HEALTHMAX = 1;    //max (starting) health
     public float radius;    //radius of player
     public int controlScheme = 0;            //determines controls and color for player
     public float bulletSize;
@@ -24,7 +25,7 @@ public class Player extends Entity {
     double direction;
     Color color;
     float bulletSpeed;
-    int explosionTimer = 1000; //explosion will show for explosionTimer milliseconds
+    int explosionTimer = 1500; //explosion will show for explosionTimer milliseconds
     int hits = 0;    //how many times this player has hit another
     boolean initialGrowth = false;
     private float speed;    //accel speed
@@ -334,6 +335,11 @@ public class Player extends Entity {
         health += delta;
         if (health > HEALTHMAX)
             health = HEALTHMAX;
+    }
+
+    public void removeFromList() {
+        MainClass.livingPlayers--;
+        super.removeFromList();
     }
 
     //simple distance formula.  Shouldn't really be in here.

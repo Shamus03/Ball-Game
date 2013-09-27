@@ -18,11 +18,14 @@ public class MainClass {
     static ArrayList<Entity> menuList = new ArrayList<Entity>();
     static ArrayList<Entity> gameList = new ArrayList<Entity>();
     static ArrayList<Entity> pauseList = new ArrayList<Entity>();
+    static ArrayList<Entity> winScreenList = new ArrayList<Entity>();
 
     static ToggleButton player1Button;
     static ToggleButton player2Button;
     static ToggleButton player3Button;
     static ToggleButton player4Button;
+
+    public static int livingPlayers;
 
     public static void main(String args[]) {
         game = new Game();
@@ -32,12 +35,12 @@ public class MainClass {
         frame.setLocationRelativeTo(null);
 
         createMenu();
-        createGame();
         createPauseScreen();
 
         Entity.addEntityList(menuList);
         Entity.addEntityList(gameList);
         Entity.addEntityList(pauseList);
+        Entity.addEntityList(winScreenList);
         Entity.switchEntityList(0);
     }
 
@@ -65,8 +68,10 @@ public class MainClass {
                     playerCount++;
                 if (MainClass.player4Button.chosen)
                     playerCount++;
-                if (playerCount > 1)
+                if (playerCount > 1) {
+                    MainClass.createGame();
                     Entity.switchEntityList(1);
+                }
             }
         });
         player1Button = new ToggleButton(125, 500, 150, 75, "Blue", Color.blue) {
@@ -91,29 +96,45 @@ public class MainClass {
     public static void createGame() {
         gameList.clear();
 
+        livingPlayers = 0;
+
         if (player1Button.chosen) {
             Player player1 = new Player(1);
             player1.setxPos(400);
             gameList.add(player1);
+            livingPlayers++;
         }
 
         if (player2Button.chosen) {
             Player player2 = new Player(2);
             player2.setxPos(-400);
             gameList.add(player2);
+            livingPlayers++;
         }
 
         if (player3Button.chosen) {
             Player player3 = new Player(3);
             player3.setyPos(300);
             gameList.add(player3);
+            livingPlayers++;
         }
 
         if (player4Button.chosen) {
             Player player4 = new Player(4);
             player4.setyPos(-300);
             gameList.add(player4);
+            livingPlayers++;
         }
+
+        Entity winChecker = new Entity() {
+            public void tick(int delta) {
+                if (MainClass.livingPlayers == 1) {
+                    MainClass.createWinScreen();
+                    Entity.switchEntityList(3);
+                }
+            }
+        };
+        gameList.add(winChecker);
 
         gameList.add(new ItemSpawner(1, 10));
 
@@ -145,5 +166,62 @@ public class MainClass {
         pauseList.add(gameOverlayEntity);
         pauseList.add(menuButton);
         pauseList.add(resumeButton);
+    }
+
+    public static void createWinScreen() {
+        Entity winScreenEntity = new Entity() {
+            public String winner;
+            boolean inited = false;
+
+            public void init() {
+                inited = true;
+
+                int winnerColor = -1;
+                for (Entity e : gameList)
+                    if (e instanceof Player) {
+                        winnerColor = ((Player) e).controlScheme;
+                        break;
+                    }
+
+                switch (winnerColor) {
+                    case 1:
+                        winner = "Blue";
+                        break;
+                    case 2:
+                        winner = "Red";
+                        break;
+                    case 3:
+                        winner = "Green";
+                        break;
+                    case 4:
+                        winner = "Pink";
+                        break;
+                    default:
+                        winner = "ERROR";
+                        break;
+                }
+            }
+
+            public void tick(int delta) {
+                if (!inited)
+                    init();
+            }
+
+            public void draw(Graphics2D g) {
+                g.setColor(Color.black);
+                g.fillRect(0, 0, MainClass.frame.getWidth(), MainClass.frame.getHeight());    //draw background
+
+                g.setFont(new Font("Monospaced", 0, 80));
+                g.setColor(Color.white);
+                g.drawString(winner + " wins!", 285, 200);    //draw winner
+            }
+        };
+        winScreenList.add(winScreenEntity);
+
+        winScreenList.add(new Button(400, 300, 200, 75, "Menu", Color.gray) {
+            public void press() {
+                Entity.switchEntityList(0);
+            }
+        });
     }
 }
